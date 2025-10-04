@@ -32,10 +32,5 @@
     "REDIS_URL": "@redis-url",
     "NEXTAUTH_SECRET": "@nextauth-secret",
     "NEXTAUTH_URL": "https://nlp-to-app.vercel.app"
-  },
-  "functions": {
-    "backend/main.py": {
-      "maxDuration": 300
-    }
   }
 }
