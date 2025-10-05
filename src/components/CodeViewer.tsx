@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 
-export default function CodeViewer({ code, test, sandboxUrl }: { code: string; test: string; sandboxUrl?: string }) {
+export default function CodeViewer({ code, test }: { code: string; test: string }) {
   const [tab, setTab] = useState<'preview' | 'code' | 'test'>('preview');
   const [previewHtml, setPreviewHtml] = useState('');
   const [previewError, setPreviewError] = useState('');
@@ -102,19 +102,7 @@ export default function CodeViewer({ code, test, sandboxUrl }: { code: string; t
             </span>
           </button>
         </div>
-        {sandboxUrl && tab === 'preview' && (
-          <a 
-            href={sandboxUrl} 
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/30 border border-slate-700/50 text-xs text-slate-400 hover:text-slate-300 hover:border-blue-500/50 transition-all"
-          >
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-            Open in New Tab
-          </a>
-        )}
+
       </div>
       <div className="flex-1 overflow-hidden relative">
         {tab === 'preview' ? (
@@ -125,13 +113,6 @@ export default function CodeViewer({ code, test, sandboxUrl }: { code: string; t
                 <div className="text-sm text-slate-500">{previewError}</div>
               </div>
             </div>
-          ) : sandboxUrl ? (
-            <iframe 
-              key={sandboxUrl}
-              src={sandboxUrl}
-              className="absolute inset-0 w-full h-full bg-white border-0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            />
           ) : previewHtml ? (
             <iframe 
               key={previewHtml}

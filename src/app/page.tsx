@@ -86,7 +86,7 @@ export default function Home() {
         {/* Right Panel */}
         <div className="bg-slate-900/30 backdrop-blur-xl border border-slate-800/50 rounded-2xl overflow-hidden">
           {data ? (
-            <CodeViewer code={data.jsx} test={data.test} sandboxUrl={data.sandboxUrl} />
+            <CodeViewer code={data.jsx} test={data.test} />
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center p-12">
               <div className="w-20 h-20 rounded-2xl bg-slate-800/50 flex items-center justify-center mb-6">

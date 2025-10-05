@@ -21,7 +21,7 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: { onGenerate
       { name: '🏗️ Architect', task: 'Designing system architecture', status: 'pending' },
       { name: '💻 Coder', task: 'Writing React component', status: 'pending' },
       { name: '🧪 QA Engineer', task: 'Generating tests', status: 'pending' },
-      { name: '🚀 Sandbox', task: 'Deploying to E2B', status: 'pending' }
+      { name: '✅ Complete', task: 'Ready for preview', status: 'pending' }
     ];
     
     try {
@@ -50,20 +50,10 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: { onGenerate
       await new Promise(r => setTimeout(r, 500));
       
       agents[3].status = 'done';
-      agents[4].status = 'working';
-      onAgentUpdate([...agents]);
-      
-      const sandboxRes = await fetch('/api/sandbox', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: json.jsx })
-      });
-      const sandboxData = await sandboxRes.json();
-      
       agents[4].status = 'done';
       onAgentUpdate([...agents]);
       
-      onGenerated({ ...json, sandboxUrl: sandboxData.url });
+      onGenerated(json);
     } catch (error) {
       console.error(error);
     }
