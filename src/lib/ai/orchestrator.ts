@@ -26,10 +26,10 @@ async function callCerebras(messages: any[]) {
       'Authorization': `Bearer ${CEREBRAS_API_KEY}`
     },
     body: JSON.stringify({
-      model: 'llama3.1-70b',
+      model: 'gpt-oss-120b',
       messages,
       temperature: 0.7,
-      max_tokens: 2000
+      max_completion_tokens: 2000
     })
   });
   const data = await res.json();
