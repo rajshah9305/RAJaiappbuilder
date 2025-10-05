@@ -5,15 +5,15 @@ export default function AgentProgress({ agents }: { agents: any[] }) {
 
   return (
     <div className="relative group">
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 rounded-xl sm:rounded-2xl blur-md sm:blur-lg group-hover:blur-xl transition-all"></div>
-      <div className="relative bg-slate-900/50 backdrop-blur-xl border border-cyan-500/20 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+      <div className="absolute inset-0 bg-orange-500/5 rounded-xl sm:rounded-2xl blur-md sm:blur-lg group-hover:blur-xl transition-all"></div>
+      <div className="relative bg-white border border-gray-200 shadow-sm rounded-xl sm:rounded-2xl p-4 sm:p-6">
         <div className="flex items-center gap-2 mb-3 sm:mb-4">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-orange-500 flex items-center justify-center">
             <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h3 className="text-xs sm:text-sm font-semibold text-slate-200">Agent Progress</h3>
+          <h3 className="text-xs sm:text-sm font-semibold text-gray-900">Agent Progress</h3>
         </div>
         
         <div className="space-y-2 sm:space-y-3">
@@ -23,43 +23,39 @@ export default function AgentProgress({ agents }: { agents: any[] }) {
               className="relative group/item"
             >
               {agent.status === 'working' && (
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-emerald-500/10 rounded-lg sm:rounded-xl blur-sm"></div>
+                <div className="absolute inset-0 bg-orange-500/5 rounded-lg sm:rounded-xl blur-sm"></div>
               )}
               <div className={`relative flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg sm:rounded-xl border transition-all ${
                 agent.status === 'working' 
-                  ? 'bg-slate-900/50 border-cyan-500/30' 
+                  ? 'bg-orange-50 border-orange-200' 
                   : agent.status === 'done'
-                  ? 'bg-slate-900/30 border-emerald-500/20'
-                  : 'bg-slate-900/20 border-slate-700/20'
+                  ? 'bg-white border-gray-200'
+                  : 'bg-gray-50 border-gray-200'
               }`}>
                 <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0">
                   {agent.status === 'working' ? (
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-full blur-sm"></div>
-                      <div className="relative w-4 h-4 sm:w-5 sm:h-5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="relative w-4 h-4 sm:w-5 sm:h-5 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
                     </div>
                   ) : agent.status === 'done' ? (
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-emerald-500 rounded-full blur-sm opacity-50"></div>
-                      <svg className="relative w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
+                    <svg className="relative w-4 h-4 sm:w-5 sm:h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
                   ) : (
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-600"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gray-300"></div>
                   )}
                 </div>
                 <span className={`text-xs sm:text-sm flex-1 transition-colors ${
                   agent.status === 'working' 
-                    ? 'text-cyan-300 font-medium' 
+                    ? 'text-orange-700 font-medium' 
                     : agent.status === 'done'
-                    ? 'text-slate-300'
-                    : 'text-slate-500'
+                    ? 'text-gray-900'
+                    : 'text-gray-500'
                 }`}>
                   {agent.name}
                 </span>
                 {agent.status === 'working' && (
-                  <span className="text-[10px] sm:text-xs text-cyan-400 font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-cyan-500/10 border border-cyan-500/20">
+                  <span className="text-[10px] sm:text-xs text-orange-600 font-medium px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-orange-100 border border-orange-200">
                     Active
                   </span>
                 )}

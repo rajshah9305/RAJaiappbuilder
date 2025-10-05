@@ -101,9 +101,8 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
   return (
     <div className="space-y-3 sm:space-y-4">
       <div className="relative group">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 rounded-lg sm:rounded-xl blur-md sm:blur-lg group-focus-within:blur-xl transition-all"></div>
         <textarea
-          className="relative w-full p-3 sm:p-4 rounded-lg sm:rounded-xl bg-slate-900/50 text-slate-100 text-sm sm:text-base border border-cyan-500/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none transition-all resize-none placeholder:text-slate-500"
+          className="relative w-full p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white text-gray-900 text-sm sm:text-base border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 focus:outline-none transition-all resize-none placeholder:text-gray-400"
           rows={4}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -116,9 +115,9 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
 
 Example: Create a todo list app with dark mode and local storage"
         />
-        <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 text-[10px] sm:text-xs text-slate-500 flex items-center gap-1 sm:gap-2">
+        <div className="absolute bottom-2 sm:bottom-3 right-2 sm:right-3 text-[10px] sm:text-xs text-gray-500 flex items-center gap-1 sm:gap-2">
           <span className="hidden sm:inline">{prompt.length} chars</span>
-          <span className="text-cyan-400 hidden sm:inline">⌘+Enter</span>
+          <span className="text-orange-600 hidden sm:inline">⌘+Enter</span>
         </div>
       </div>
       
@@ -127,11 +126,11 @@ Example: Create a todo list app with dark mode and local storage"
           <button
             key={text}
             onClick={() => setPrompt(text)}
-            className="group relative px-2 sm:px-3 py-2 text-[11px] sm:text-xs rounded-md sm:rounded-lg bg-slate-900/30 border border-cyan-500/20 text-slate-400 hover:text-slate-200 hover:border-cyan-500/50 transition-all text-left"
+            className="group relative px-2 sm:px-3 py-2 text-[11px] sm:text-xs rounded-md sm:rounded-lg bg-white border border-gray-200 text-gray-700 hover:text-gray-900 hover:border-orange-300 hover:bg-orange-50 transition-all text-left"
           >
             <span className="flex items-center gap-1.5 sm:gap-2">
               <span className="text-sm sm:text-base">{icon}</span>
-              <span className="group-hover:text-cyan-400 transition-colors truncate">{text}</span>
+              <span className="group-hover:text-orange-600 transition-colors truncate">{text}</span>
             </span>
           </button>
         ))}
@@ -140,10 +139,8 @@ Example: Create a todo list app with dark mode and local storage"
       <button 
         onClick={submit} 
         disabled={loading || !prompt.trim()} 
-        className="relative w-full px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all group overflow-hidden"
+        className="relative w-full px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all group overflow-hidden bg-orange-500 hover:bg-orange-600"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-emerald-500 group-hover:from-cyan-400 group-hover:to-emerald-400 transition-all"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-emerald-500 blur-lg opacity-50 group-hover:opacity-75 transition-all"></div>
         <span className="relative text-white flex items-center justify-center gap-2">
           {loading ? (
             <>
