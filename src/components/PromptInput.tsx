@@ -77,62 +77,63 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
     }
   };
 
-  const examplePrompts = [
-    { icon: '📝', text: 'Todo list with drag & drop', category: 'Productivity' },
-    { icon: '🎨', text: 'Portfolio with animations', category: 'Creative' },
-    { icon: '📊', text: 'Analytics dashboard', category: 'Business' },
-    { icon: '🎮', text: 'Memory card game', category: 'Entertainment' },
-    { icon: '🛒', text: 'E-commerce product catalog', category: 'Commerce' },
-    { icon: '💬', text: 'Real-time chat interface', category: 'Social' },
+  const templates = [
+    { 
+      icon: '📝', 
+      title: 'Todo List', 
+      description: 'Task manager with drag & drop, categories, and local storage',
+      prompt: 'Create a todo list app with drag and drop functionality, task categories (work, personal, urgent), completion checkboxes, delete buttons, and local storage persistence. Use a modern card-based design with Tailwind CSS.',
+      category: 'Productivity' 
+    },
+    { 
+      icon: '🎨', 
+      title: 'Portfolio', 
+      description: 'Personal portfolio with projects gallery and animations',
+      prompt: 'Build a portfolio website with a hero section, about me section, projects gallery with hover effects, skills section with progress bars, and a contact form. Include smooth scroll animations and a modern gradient design.',
+      category: 'Creative' 
+    },
+    { 
+      icon: '📊', 
+      title: 'Dashboard', 
+      description: 'Analytics dashboard with charts and KPI cards',
+      prompt: 'Create an analytics dashboard with KPI cards showing metrics, a line chart for trends, bar chart for comparisons, and a data table. Use a clean, professional design with stat cards and responsive layout.',
+      category: 'Business' 
+    },
+    { 
+      icon: '🎮', 
+      title: 'Memory Game', 
+      description: 'Interactive memory card matching game',
+      prompt: 'Build a memory card matching game with a 4x4 grid of cards, flip animations, score tracking, timer, and restart button. Cards should flip on click and match when two identical cards are selected. Use colorful, playful design.',
+      category: 'Entertainment' 
+    },
+    { 
+      icon: '🛒', 
+      title: 'Product Catalog', 
+      description: 'E-commerce product listing with filters',
+      prompt: 'Create an e-commerce product catalog with product cards (image, name, price, rating), category filters, search bar, sort options (price, rating), and add to cart buttons. Use a grid layout with responsive columns.',
+      category: 'Commerce' 
+    },
+    { 
+      icon: '💬', 
+      title: 'Chat Interface', 
+      description: 'Real-time messaging UI with conversations',
+      prompt: 'Build a chat interface with a conversation list sidebar, message thread area, message bubbles (sent/received), typing indicator, timestamp, and message input with send button. Use WhatsApp-inspired design with smooth animations.',
+      category: 'Social' 
+    },
   ];
 
   return (
     <div className="space-y-6">
       {/* Welcome Message */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-6 text-white animate-slide-up">
+      <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-6 sm:p-8 text-white animate-slide-up">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
         <div className="relative">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2">{welcomeMessage}</h1>
-          <p className="text-orange-100 text-lg">Transform your ideas into reality with AI-powered code generation</p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{welcomeMessage}</h1>
+          <p className="text-orange-100 text-base sm:text-lg">Transform your ideas into reality with AI-powered code generation</p>
         </div>
       </div>
 
-      {/* AI-Powered Suggestions */}
-      {showSuggestions && suggestions.length > 0 && (
-        <div className="space-y-3 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-black">Personalized for You</h2>
-            <span className="text-xs text-gray-500 flex items-center gap-1">
-              <svg className="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              AI-suggested
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {suggestions.map((suggestion) => (
-              <button
-                key={suggestion.id}
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="card-premium p-4 text-left hover-lift group"
-                disabled={isLoading}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-semibold text-black group-hover:text-orange-600 transition-colors">
-                    {suggestion.title}
-                  </h3>
-                  <div className="flex-shrink-0 w-2 h-2 rounded-full bg-orange-500 animate-pulse-orange" />
-                </div>
-                <p className="text-sm text-gray-600 mb-3">{suggestion.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs badge-orange">{suggestion.category}</span>
-                  <span className="text-xs text-gray-400">{Math.round(suggestion.confidence * 100)}% match</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+
 
       {/* Main Input Form */}
       <form onSubmit={handleSubmit} className="space-y-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
@@ -210,39 +211,36 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
         </div>
       </form>
 
-      {/* Example Prompts */}
+      {/* Template Gallery */}
       <div className="space-y-3 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-        <h3 className="text-sm font-semibold text-gray-600">Quick Start Examples:</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-          {examplePrompts.map((example, idx) => (
+        <h3 className="text-lg font-bold text-black">App Templates</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {templates.map((template, idx) => (
             <button
               key={idx}
-              onClick={() => setPrompt(example.text)}
+              onClick={() => {
+                setPrompt(template.prompt);
+                setShowSuggestions(false);
+              }}
               disabled={isLoading}
-              className="btn-ghost text-left px-3 py-2 text-sm flex items-center gap-2 group"
-              title={example.category}
+              className="card-premium p-4 text-left hover-lift group"
             >
-              <span className="text-lg group-hover:scale-110 transition-transform">{example.icon}</span>
-              <span className="truncate text-xs">{example.text.split(' ').slice(0, 2).join(' ')}</span>
+              <div className="flex items-start gap-3 mb-3">
+                <span className="text-3xl group-hover:scale-110 transition-transform">{template.icon}</span>
+                <div className="flex-1">
+                  <h4 className="font-bold text-black group-hover:text-orange-600 transition-colors">
+                    {template.title}
+                  </h4>
+                  <span className="text-xs badge-orange mt-1 inline-block">{template.category}</span>
+                </div>
+              </div>
+              <p className="text-sm text-gray-600 line-clamp-2">{template.description}</p>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Pro Tips */}
-      <div className="card-glass p-4 flex items-start gap-3 animate-slide-up" style={{ animationDelay: '0.4s' }}>
-        <div className="flex-shrink-0 w-10 h-10 bg-gradient-orange rounded-lg flex items-center justify-center text-white">
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-          </svg>
-        </div>
-        <div className="flex-1">
-          <h4 className="font-semibold text-black mb-1">Pro Tip</h4>
-          <p className="text-sm text-gray-600">
-            Include details like <strong className="text-orange-600">styling preferences</strong>, <strong className="text-orange-600">interactivity features</strong>, and <strong className="text-orange-600">data management</strong> for more precise results.
-          </p>
-        </div>
-      </div>
+
     </div>
   );
 }

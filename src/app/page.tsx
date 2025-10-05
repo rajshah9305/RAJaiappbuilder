@@ -171,45 +171,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Features Showcase */}
-        {!isGenerating && !generatedCode && (
-          <div className="mt-16 space-y-12 animate-slide-up" style={{ animationDelay: '0.5s' }}>
-            {/* Features Grid */}
-            <div className="text-center mb-12">
-              <h2 className="section-title gradient-text">Elite Features</h2>
-              <p className="section-subtitle mx-auto">
-                Advanced capabilities that set us apart
-              </p>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <FeatureCard
-                icon="🤖"
-                title="AI-Powered Personalization"
-                description="Learns your preferences and adapts suggestions in real-time"
-                accent="orange"
-              />
-              <FeatureCard
-                icon="⚡"
-                title="Real-Time Streaming"
-                description="Watch your code being generated token-by-token"
-                accent="orange"
-              />
-              <FeatureCard
-                icon="📊"
-                title="Advanced Analytics"
-                description="Deep insights into your development patterns"
-                accent="orange"
-              />
-              <FeatureCard
-                icon="🎨"
-                title="Premium UI/UX"
-                description="Crafted with attention to every micro-interaction"
-                accent="orange"
-              />
-            </div>
-          </div>
-        )}
       </main>
 
       {/* Analytics Dashboard */}
@@ -258,24 +220,4 @@ export default function Home() {
   );
 }
 
-interface FeatureCardProps {
-  icon: string;
-  title: string;
-  description: string;
-  accent: 'orange';
-}
 
-function FeatureCard({ icon, title, description, accent }: FeatureCardProps) {
-  return (
-    <div className="card-premium p-6 hover-lift group">
-      <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
-        {icon}
-      </div>
-      <h3 className="text-lg font-bold text-black mb-2 group-hover:text-orange-600 transition-colors">
-        {title}
-      </h3>
-      <p className="text-sm text-gray-600">{description}</p>
-      <div className={`mt-4 h-1 w-12 bg-gradient-to-r from-${accent}-500 to-${accent}-600 rounded-full group-hover:w-full transition-all duration-300`} />
-    </div>
-  );
-}
