@@ -47,8 +47,8 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between p-2 sm:p-4 border-b border-cyan-500/20 bg-slate-900/30">
-        <div className="flex gap-1 sm:gap-2 w-full">
+      <div className="flex items-center justify-between p-2 sm:p-4 border-b border-cyan-500/20 bg-slate-900/30 overflow-x-auto">
+        <div className="flex gap-1 sm:gap-2 w-full min-w-max">
           {[
             { id: 'preview', label: 'Preview', icon: 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' },
             { id: 'code', label: 'Code', icon: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4' },
@@ -57,7 +57,7 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
             <button 
               key={id}
               onClick={() => setTab(id as any)}
-              className={`relative flex-1 sm:flex-none px-2 sm:px-4 py-1.5 sm:py-2 rounded-md sm:rounded-lg font-medium text-xs sm:text-sm transition-all ${
+              className={`relative flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-2 rounded-md sm:rounded-lg font-medium text-xs sm:text-sm transition-all whitespace-nowrap ${
                 tab === id 
                   ? 'text-white' 
                   : 'text-slate-400 hover:text-slate-200'
@@ -66,11 +66,11 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
               {tab === id && (
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-emerald-500 rounded-md sm:rounded-lg blur-sm"></div>
               )}
-              <span className={`relative flex items-center justify-center sm:justify-start gap-1 sm:gap-2 ${tab === id ? 'drop-shadow-lg' : ''}`}>
+              <span className={`relative flex items-center justify-center gap-1.5 sm:gap-2 ${tab === id ? 'drop-shadow-lg' : ''}`}>
                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon} />
                 </svg>
-                <span className="hidden sm:inline">{label}</span>
+                <span>{label}</span>
               </span>
             </button>
           ))}
