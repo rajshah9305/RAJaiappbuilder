@@ -2,61 +2,99 @@
 import { useState } from 'react';
 
 const examples = [
-  'Todo list with dark mode',
-  'Weather dashboard',
-  'Calculator app',
-  'Timer with animations'
+  'Todo list with drag and drop',
+  'Weather dashboard with animations',
+  'Calculator with history',
+  'Pomodoro timer with stats'
 ];
 
-export default function PromptInput({ onGenerated, onAgentUpdate }: { onGenerated: (d: any) => void; onAgentUpdate: (a: any[]) => void }) {
+export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function submit() {
+    if (!prompt.trim()) return;
+    
     setLoading(true);
-    onAgentUpdate([]);
-    
-    const agents = [
-      { name: '🎯 Product Manager', task: 'Creating technical spec', status: 'working' },
-      { name: '🏗️ Architect', task: 'Designing system architecture', status: 'pending' },
-      { name: '💻 Coder', task: 'Writing React component', status: 'pending' },
-      { name: '🧪 QA Engineer', task: 'Generating tests', status: 'pending' },
-      { name: '✅ Complete', task: 'Ready for preview', status: 'pending' }
-    ];
-    
+    onAgentUpdate([
+      { name: '🎯 Analyzing', status: 'working' },
+      { name: '💻 Generating Code', status: 'pending' },
+      { name: '🧪 Creating Tests', status: 'pending' },
+      { name: '✨ Finalizing', status: 'pending' }
+    ]);
+
     try {
-      onAgentUpdate([...agents]);
-      await new Promise(r => setTimeout(r, 800));
-      
-      agents[0].status = 'done';
-      agents[1].status = 'working';
-      onAgentUpdate([...agents]);
-      await new Promise(r => setTimeout(r, 800));
-      
-      agents[1].status = 'done';
-      agents[2].status = 'working';
-      onAgentUpdate([...agents]);
-      
-      const res = await fetch('/api/generate', { 
-        method: 'POST', 
+      const response = await fetch('/api/generate', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt }) 
+        body: JSON.stringify({ prompt })
       });
-      const json = await res.json();
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
       
-      agents[2].status = 'done';
-      agents[3].status = 'working';
-      onAgentUpdate([...agents]);
-      await new Promise(r => setTimeout(r, 500));
-      
-      agents[3].status = 'done';
-      agents[4].status = 'done';
-      onAgentUpdate([...agents]);
-      
-      onGenerated(json);
+      let code = '';
+      let test = '';
+      let spec = '';
+      let arch = '';
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n').filter(l => l.trim().startsWith('data:'));
+
+          for (const line of lines) {
+            const data = JSON.parse(line.replace('data: ', ''));
+            
+            if (data.stage === 'code') {
+              onAgentUpdate([
+                { name: '🎯 Analyzing', status: 'done' },
+                { name: '💻 Generating Code', status: data.status === 'complete' ? 'done' : 'working' },
+                { name: '🧪 Creating Tests', status: 'pending' },
+                { name: '✨ Finalizing', status: 'pending' }
+              ]);
+              
+              if (data.content) code += data.content;
+              if (data.fullContent) code = data.fullContent;
+              
+              onGenerated({ jsx: code, test, spec, arch });
+            }
+            
+            if (data.stage === 'test') {
+              onAgentUpdate([
+                { name: '🎯 Analyzing', status: 'done' },
+                { name: '💻 Generating Code', status: 'done' },
+                { name: '🧪 Creating Tests', status: data.status === 'complete' ? 'done' : 'working' },
+                { name: '✨ Finalizing', status: 'pending' }
+              ]);
+              
+              if (data.content) test += data.content;
+              if (data.fullContent) test = data.fullContent;
+              
+              onGenerated({ jsx: code, test, spec, arch });
+            }
+            
+            if (data.stage === 'done') {
+              spec = data.spec;
+              arch = data.arch;
+              onAgentUpdate([
+                { name: '🎯 Analyzing', status: 'done' },
+                { name: '💻 Generating Code', status: 'done' },
+                { name: '🧪 Creating Tests', status: 'done' },
+                { name: '✨ Finalizing', status: 'done' }
+              ]);
+              onGenerated({ jsx: code, test, spec, arch });
+            }
+          }
+        }
+      }
     } catch (error) {
       console.error(error);
     }
+    
     setLoading(false);
   }
 
@@ -68,12 +106,17 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: { onGenerate
           rows={4}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+              submit();
+            }
+          }}
           placeholder="Describe your application in natural language...
 
 Example: Create a todo list app with dark mode and local storage"
         />
         <div className="absolute bottom-3 right-3 text-xs text-slate-500">
-          {prompt.length} characters
+          {prompt.length} characters • ⌘+Enter to generate
         </div>
       </div>
       
