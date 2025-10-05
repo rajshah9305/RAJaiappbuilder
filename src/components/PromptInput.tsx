@@ -2,10 +2,10 @@
 import { useState } from 'react';
 
 const examples = [
-  'Todo list with drag and drop',
-  'Weather dashboard with animations',
-  'Calculator with history',
-  'Pomodoro timer with stats'
+  { text: 'Todo list with drag and drop', icon: '📝' },
+  { text: 'Weather dashboard', icon: '🌤️' },
+  { text: 'Calculator app', icon: '🔢' },
+  { text: 'Pomodoro timer', icon: '⏱️' }
 ];
 
 export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
@@ -100,9 +100,10 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
 
   return (
     <div className="space-y-4">
-      <div className="relative">
+      <div className="relative group">
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-emerald-500/20 rounded-xl blur-lg group-focus-within:blur-xl transition-all"></div>
         <textarea
-          className="w-full p-4 rounded-xl bg-purple-950/30 text-purple-100 border border-purple-500/30 focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 focus:outline-none transition-all resize-none placeholder:text-purple-400"
+          className="relative w-full p-4 rounded-xl bg-slate-900/50 text-slate-100 border border-cyan-500/30 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 focus:outline-none transition-all resize-none placeholder:text-slate-500"
           rows={4}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -115,19 +116,23 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
 
 Example: Create a todo list app with dark mode and local storage"
         />
-        <div className="absolute bottom-3 right-3 text-xs text-purple-400">
-          {prompt.length} characters • ⌘+Enter to generate
+        <div className="absolute bottom-3 right-3 text-xs text-slate-500 flex items-center gap-2">
+          <span>{prompt.length} chars</span>
+          <span className="text-cyan-400">⌘+Enter</span>
         </div>
       </div>
       
-      <div className="flex flex-wrap gap-2">
-        {examples.map((ex) => (
+      <div className="grid grid-cols-2 gap-2">
+        {examples.map(({ text, icon }) => (
           <button
-            key={ex}
-            onClick={() => setPrompt(ex)}
-            className="px-3 py-1.5 text-xs rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:text-purple-200 hover:border-pink-500/50 transition-all"
+            key={text}
+            onClick={() => setPrompt(text)}
+            className="group relative px-3 py-2 text-xs rounded-lg bg-slate-900/30 border border-cyan-500/20 text-slate-400 hover:text-slate-200 hover:border-cyan-500/50 transition-all text-left"
           >
-            {ex}
+            <span className="flex items-center gap-2">
+              <span className="text-base">{icon}</span>
+              <span className="group-hover:text-cyan-400 transition-colors">{text}</span>
+            </span>
           </button>
         ))}
       </div>
@@ -135,24 +140,28 @@ Example: Create a todo list app with dark mode and local storage"
       <button 
         onClick={submit} 
         disabled={loading || !prompt.trim()} 
-        className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-purple-500/50 hover:shadow-pink-500/50"
+        className="relative w-full px-6 py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all group overflow-hidden"
       >
-        {loading ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Generating Application...
-          </span>
-        ) : (
-          <span className="flex items-center justify-center gap-2">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            Generate Application
-          </span>
-        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-emerald-500 group-hover:from-cyan-400 group-hover:to-emerald-400 transition-all"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-emerald-500 blur-lg opacity-50 group-hover:opacity-75 transition-all"></div>
+        <span className="relative text-white flex items-center justify-center gap-2">
+          {loading ? (
+            <>
+              <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Generating Application...
+            </>
+          ) : (
+            <>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              Generate Application
+            </>
+          )}
+        </span>
       </button>
     </div>
   );
