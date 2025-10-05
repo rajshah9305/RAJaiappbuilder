@@ -36,4 +36,32 @@
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: rgba(249, 115, 22, 0.5);
   }
+  
+  /* Ensure smooth scrolling on all devices */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  
+  /* Mobile-specific optimizations */
+  @media (max-width: 640px) {
+    body {
+      font-size: 14px;
+    }
+  }
+  
+  /* Tablet optimizations */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    body {
+      font-size: 15px;
+    }
+  }
+  
+  /* Desktop optimizations */
+  @media (min-width: 1024px) {
+    body {
+      font-size: 16px;
+    }
+  }
 }
