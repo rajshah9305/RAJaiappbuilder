@@ -1,3 +1,9 @@
+/**
+ * RAJ AI APP BUILDER - Root Layout
+ * Built and Developed by RAJ SHAH
+ * https://github.com/rajshah9305
+ */
+
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';

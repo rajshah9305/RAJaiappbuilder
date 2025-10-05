@@ -1,5 +1,8 @@
 /**
- * AI-Powered Personalization Engine
+ * RAJ AI APP BUILDER - AI-Powered Personalization Engine
+ * Built and Developed by RAJ SHAH
+ * https://github.com/rajshah9305
+ * 
  * Dynamically adapts to user behaviors and preferences
  */
 

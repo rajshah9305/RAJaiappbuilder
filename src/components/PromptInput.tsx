@@ -1,3 +1,9 @@
+/**
+ * RAJ AI APP BUILDER - Prompt Input Component
+ * Built and Developed by RAJ SHAH
+ * https://github.com/rajshah9305
+ */
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';

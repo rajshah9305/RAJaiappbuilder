@@ -1,3 +1,11 @@
+/**
+ * RAJ AI APP BUILDER - AI Generation API Route
+ * Built and Developed by RAJ SHAH
+ * https://github.com/rajshah9305
+ * 
+ * Streams AI-generated code using Cerebras GPT-OSS-120B
+ */
+
 import { NextRequest } from 'next/server';
 
 const CEREBRAS_API_KEY = process.env.CEREBRAS_API_KEY!;

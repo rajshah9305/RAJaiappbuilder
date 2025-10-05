@@ -1,3 +1,9 @@
+/**
+ * RAJ AI APP BUILDER - Analytics Dashboard Component
+ * Built and Developed by RAJ SHAH
+ * https://github.com/rajshah9305
+ */
+
 'use client';
 
 import { useEffect, useState } from 'react';

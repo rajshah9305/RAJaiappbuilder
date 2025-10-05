@@ -1,3 +1,9 @@
+/**
+ * RAJ AI APP BUILDER - Main Application Page
+ * Built and Developed by RAJ SHAH
+ * https://github.com/rajshah9305
+ */
+
 'use client';
 
 import { useState } from 'react';
@@ -218,6 +224,9 @@ export default function Home() {
                 RAJ AI APP BUILDER
               </p>
               <p className="text-xs text-gray-600 mt-1">
+                Built and Developed by <a href="https://github.com/rajshah9305" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-700">RAJ SHAH</a>
+              </p>
+              <p className="text-xs text-gray-500 mt-0.5">
                 Powered by Cerebras GPT-OSS-120B
               </p>
             </div>
@@ -226,9 +235,9 @@ export default function Home() {
                 href="https://github.com/rajshah9305"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-orange-600 transition-colors"
+                className="hover:text-orange-600 transition-colors font-medium"
               >
-                Built by Raj Shah
+                @rajshah9305
               </a>
               <span className="text-gray-300">•</span>
               <a
@@ -239,6 +248,8 @@ export default function Home() {
               >
                 Open Source
               </a>
+              <span className="text-gray-300">•</span>
+              <span className="text-gray-500">MIT License</span>
             </div>
           </div>
         </div>
