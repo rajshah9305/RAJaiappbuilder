@@ -72,11 +72,11 @@ test('increments counter', () => {
   }
 }
 
-async function callCerebras(messages: any[], retries = 2) {
+async function callCerebras(messages: any[], retries = 3) {
   for (let i = 0; i <= retries; i++) {
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+      const timeout = setTimeout(() => controller.abort(), 30000); // 30s timeout
       
       const res = await fetch(`${CEREBRAS_BASE_URL}/chat/completions`, {
         method: 'POST',
@@ -85,30 +85,39 @@ async function callCerebras(messages: any[], retries = 2) {
           'Authorization': `Bearer ${CEREBRAS_API_KEY}`
         },
         body: JSON.stringify({
-          model: 'gpt-oss-120b',
+          model: 'llama3.1-8b', // Faster, less rate limited model
           messages,
           temperature: 0.7,
-          max_completion_tokens: 2000
+          max_completion_tokens: 1500,
+          stream: false
         }),
         signal: controller.signal
       });
       
       clearTimeout(timeout);
+      
+      if (!res.ok) {
+        const error = await res.json();
+        if (error.code === 'queue_exceeded' && i < retries) {
+          const delay = Math.min(1000 * Math.pow(2, i), 8000); // Exponential backoff: 1s, 2s, 4s, 8s
+          await new Promise(r => setTimeout(r, delay));
+          continue;
+        }
+        throw new Error(`API Error: ${JSON.stringify(error)}`);
+      }
+      
       const data = await res.json();
       
       if (!data.choices || !data.choices[0]) {
-        if (data.code === 'queue_exceeded' && i < retries) {
-          await new Promise(r => setTimeout(r, 2000)); // Wait 2s before retry
-          continue;
-        }
-        throw new Error(`API Error: ${JSON.stringify(data)}`);
+        throw new Error(`Invalid response: ${JSON.stringify(data)}`);
       }
       
       const msg = data.choices[0].message;
       return msg.content || msg.reasoning || '';
     } catch (error: any) {
       if (i === retries) throw error;
-      await new Promise(r => setTimeout(r, 2000));
+      const delay = Math.min(1000 * Math.pow(2, i), 8000);
+      await new Promise(r => setTimeout(r, delay));
     }
   }
   throw new Error('Max retries exceeded');
