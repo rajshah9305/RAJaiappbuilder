@@ -1,5 +1,3 @@
 {
-  "buildCommand": "prisma generate && next build",
-  "framework": "nextjs",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./src ./prisma ./package.json"
+  "framework": "nextjs"
 }
