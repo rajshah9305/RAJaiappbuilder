@@ -166,5 +166,5 @@ Example: Create a todo list app with dark mode and local storage"
         </span>
       </button>
     </div>
-  );}
+  );
 }
