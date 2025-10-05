@@ -1,10 +1,16 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Editor from '@monaco-editor/react';
 
-export default function CodeViewer({ code, test }: { code: string; test: string }) {
+interface CodeViewerProps {
+  code: string;
+  test: string;
+}
+
+export default function CodeViewer({ code, test }: CodeViewerProps) {
   const [tab, setTab] = useState<'preview' | 'code' | 'test'>('preview');
   const [previewHtml, setPreviewHtml] = useState('');
+  const [previewError, setPreviewError] = useState<string | null>(null);
   
   useEffect(() => {
     setTab('preview');
@@ -18,10 +24,11 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
   useEffect(() => {
     if (!code) return;
     
-    const cleaned = cleanCode(code);
-    const componentName = cleaned.match(/(?:export\s+default\s+)?(?:function|const)\s+(\w+)/)?.[1] || 'App';
-    
-    const html = `<!DOCTYPE html>
+    try {
+      const cleaned = cleanCode(code);
+      const componentName = cleaned.match(/(?:export\s+default\s+)?(?:function|const)\s+(\w+)/)?.[1] || 'App';
+      
+      const html = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -35,14 +42,22 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
-    ${cleaned.replace(/export\s+default\s+/g, '')}
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement(${componentName}));
+    try {
+      const { useState, useEffect, useRef } = React;
+      ${cleaned.replace(/export\s+default\s+/g, '')}
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(React.createElement(${componentName}));
+    } catch (error) {
+      document.getElementById('root').innerHTML = '<div style="padding: 20px; color: red;">Error rendering component: ' + error.message + '</div>';
+    }
   </script>
 </body>
 </html>`;
-    setPreviewHtml(html);
+      setPreviewHtml(html);
+      setPreviewError(null);
+    } catch (error) {
+      setPreviewError(error instanceof Error ? error.message : 'Failed to generate preview');
+    }
   }, [code]);
 
   return (
@@ -63,6 +78,8 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
                   ? 'bg-orange-500 text-white shadow-sm' 
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 active:bg-gray-200'
               }`}
+              aria-label={`View ${label}`}
+              aria-pressed={tab === id}
             >
               <span className="flex items-center justify-center gap-1.5 sm:gap-2">
                 <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -77,22 +94,33 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
       
       <div className="flex-1 overflow-hidden relative">
         {tab === 'preview' ? (
-          previewHtml ? (
+          previewError ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-50 p-6">
+              <div className="text-center max-w-md">
+                <svg className="w-12 h-12 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Preview Error</h3>
+                <p className="text-sm text-gray-600">{previewError}</p>
+              </div>
+            </div>
+          ) : previewHtml ? (
             <iframe 
               key={previewHtml}
               srcDoc={previewHtml}
               className="absolute inset-0 w-full h-full bg-white border-0"
               sandbox="allow-scripts allow-same-origin"
-              title="preview"
+              title="Component preview"
+              loading="lazy"
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
               <div className="text-orange-600 flex items-center gap-2">
-                <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24" role="status" aria-label="Loading">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Loading preview...
+                <span>Loading preview...</span>
               </div>
             </div>
           )
@@ -102,6 +130,7 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
             language="javascript"
             value={tab === 'code' ? cleanCode(code) : cleanCode(test)}
             theme="vs-dark"
+            loading={<div className="flex items-center justify-center h-full"><span className="text-gray-500">Loading editor...</span></div>}
             options={{
               readOnly: true,
               minimap: { enabled: false },
@@ -115,7 +144,8 @@ export default function CodeViewer({ code, test }: { code: string; test: string 
               cursorBlinking: 'smooth',
               smoothScrolling: true,
               renderLineHighlight: 'none',
-              wordWrap: 'on'
+              wordWrap: 'on',
+              contextmenu: false
             }}
           />
         )}

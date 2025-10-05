@@ -1,6 +1,15 @@
 'use client';
 
-export default function AgentProgress({ agents }: { agents: any[] }) {
+interface Agent {
+  name: string;
+  status: 'pending' | 'working' | 'done';
+}
+
+interface AgentProgressProps {
+  agents: Agent[];
+}
+
+export default function AgentProgress({ agents }: AgentProgressProps) {
   if (agents.length === 0) return null;
 
   return (
@@ -32,17 +41,17 @@ export default function AgentProgress({ agents }: { agents: any[] }) {
                   ? 'bg-white border-gray-200'
                   : 'bg-gray-50 border-gray-200'
               }`}>
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center flex-shrink-0" aria-hidden="true">
                   {agent.status === 'working' ? (
                     <div className="relative">
-                      <div className="relative w-4 h-4 sm:w-5 sm:h-5 border-2 border-orange-500 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="relative w-4 h-4 sm:w-5 sm:h-5 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" role="status" aria-label="Loading"></div>
                     </div>
                   ) : agent.status === 'done' ? (
-                    <svg className="relative w-4 h-4 sm:w-5 sm:h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="relative w-4 h-4 sm:w-5 sm:h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-label="Complete">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   ) : (
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gray-300"></div>
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gray-300" aria-label="Pending"></div>
                   )}
                 </div>
                 <span className={`text-xs sm:text-sm flex-1 transition-colors ${

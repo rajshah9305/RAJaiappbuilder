@@ -4,9 +4,21 @@ import PromptInput from '@/components/PromptInput';
 import CodeViewer from '@/components/CodeViewer';
 import AgentProgress from '@/components/AgentProgress';
 
+interface GeneratedData {
+  jsx: string;
+  test: string;
+  spec: string;
+  arch: string;
+}
+
+interface Agent {
+  name: string;
+  status: 'pending' | 'working' | 'done';
+}
+
 export default function Home() {
-  const [data, setData] = useState<any>(null);
-  const [agents, setAgents] = useState<any[]>([]);
+  const [data, setData] = useState<GeneratedData | null>(null);
+  const [agents, setAgents] = useState<Agent[]>([]);
 
   return (
     <main className="min-h-screen bg-white relative overflow-hidden">
@@ -35,13 +47,13 @@ export default function Home() {
                 <h1 className="text-sm sm:text-xl font-bold text-gray-900">
                   RAJ AI APP BUILDER
                 </h1>
-                <p className="text-[10px] sm:text-xs text-gray-600 hidden sm:block">Powered by Cerebras GPT-OSS-120B</p>
+                <p className="text-[10px] sm:text-xs text-gray-600 hidden sm:block" aria-label="Powered by Cerebras GPT-OSS-120B">Powered by Cerebras GPT-OSS-120B</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg bg-orange-50 border border-orange-200 text-[10px] sm:text-xs text-orange-600">
-                <span className="inline-block w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-500 mr-1 sm:mr-2 animate-pulse"></span>
-                Live
+              <div className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg bg-orange-50 border border-orange-200 text-[10px] sm:text-xs text-orange-600" role="status" aria-live="polite">
+                <span className="inline-block w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-orange-500 mr-1 sm:mr-2 animate-pulse" aria-hidden="true"></span>
+                <span>Live</span>
               </div>
             </div>
           </div>
@@ -62,7 +74,7 @@ export default function Home() {
                   </span>
                   Describe Your Application
                 </h2>
-                <PromptInput onGenerated={setData} onAgentUpdate={setAgents} />
+                <PromptInput onGenerated={setData} onAgentUpdate={(newAgents) => setAgents(newAgents as Agent[])} />
               </div>
             </div>
 
