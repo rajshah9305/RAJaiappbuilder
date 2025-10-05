@@ -18,7 +18,6 @@ export async function kickoff_crew(userPrompt: string) {
       test 
     };
   } catch (error: any) {
-    // Fallback when API fails
     return {
       spec: `Technical spec for: ${userPrompt}`,
       arch: 'React + Tailwind CSS',
@@ -76,7 +75,7 @@ async function callCerebras(messages: any[], retries = 3) {
   for (let i = 0; i <= retries; i++) {
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000); // 30s timeout
+      const timeout = setTimeout(() => controller.abort(), 30000);
       
       const res = await fetch(`${CEREBRAS_BASE_URL}/chat/completions`, {
         method: 'POST',
@@ -85,10 +84,10 @@ async function callCerebras(messages: any[], retries = 3) {
           'Authorization': `Bearer ${CEREBRAS_API_KEY}`
         },
         body: JSON.stringify({
-          model: 'llama3.1-8b', // Faster, less rate limited model
+          model: 'gpt-oss-120b',
           messages,
           temperature: 0.7,
-          max_completion_tokens: 1500,
+          max_completion_tokens: 2000,
           stream: false
         }),
         signal: controller.signal
@@ -99,7 +98,7 @@ async function callCerebras(messages: any[], retries = 3) {
       if (!res.ok) {
         const error = await res.json();
         if (error.code === 'queue_exceeded' && i < retries) {
-          const delay = Math.min(1000 * Math.pow(2, i), 8000); // Exponential backoff: 1s, 2s, 4s, 8s
+          const delay = Math.min(1000 * Math.pow(2, i), 8000);
           await new Promise(r => setTimeout(r, delay));
           continue;
         }
