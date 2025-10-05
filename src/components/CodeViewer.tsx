@@ -126,14 +126,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
   </style>
 </head>
 <body>
-  <div id="root">
-    <div style="display: flex; align-items: center; justify-content: center; min-height: 50vh;">
-      <div style="text-align: center; color: #666;">
-        <div style="font-size: 24px; margin-bottom: 10px;">⏳</div>
-        <div>Loading preview...</div>
-      </div>
-    </div>
-  </div>
+  <div id="root"></div>
   <script type="text/babel">
     (function() {
       try {
@@ -297,7 +290,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
                 srcDoc={generatePreviewHTML(liveCode)}
                 className="w-full h-full border-0"
                 title="Component Preview"
-                sandbox="allow-scripts"
+                sandbox="allow-scripts allow-same-origin"
                 style={{ border: 'none' }}
               />
             ) : (
