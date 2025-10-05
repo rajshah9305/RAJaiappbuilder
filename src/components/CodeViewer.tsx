@@ -4,19 +4,26 @@ import { useState, useEffect } from 'react';
 export default function CodeViewer({ code, test, sandboxUrl }: { code: string; test: string; sandboxUrl?: string }) {
   const [tab, setTab] = useState<'preview' | 'code' | 'test'>('preview');
   const [previewHtml, setPreviewHtml] = useState('');
+  const [previewError, setPreviewError] = useState('');
   
   useEffect(() => {
     setTab('preview');
+    setPreviewError('');
   }, [code]);
   
-  const cleanCode = (str: string) => str.replace(/```[a-z]*\n?/g, '').trim();
+  const cleanCode = (str: string) => {
+    if (!str) return '';
+    return str.replace(/```[a-z]*\n?/g, '').replace(/```$/g, '').trim();
+  };
 
   useEffect(() => {
     if (!code) return;
-    const cleaned = cleanCode(code);
-    const componentName = cleaned.match(/(?:function|const)\s+(\w+)/)?.[1] || 'App';
-    const html = `
-<!DOCTYPE html>
+    
+    try {
+      const cleaned = cleanCode(code);
+      const componentName = cleaned.match(/(?:export\s+default\s+)?(?:function|const)\s+(\w+)/)?.[1] || 'App';
+      
+      const html = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -25,18 +32,23 @@ export default function CodeViewer({ code, test, sandboxUrl }: { code: string; t
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>body { margin: 0; padding: 0; }</style>
+  <style>body { margin: 0; padding: 0; min-height: 100vh; }</style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    ${cleaned}
+    const { useState, useEffect, useRef } = React;
+    ${cleaned.replace(/export\s+default\s+/g, '')}
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(React.createElement(${componentName}));
   </script>
 </body>
 </html>`;
-    setPreviewHtml(html);
+      setPreviewHtml(html);
+      setPreviewError('');
+    } catch (error: any) {
+      setPreviewError(error.message);
+    }
   }, [code]);
 
   return (
@@ -93,7 +105,8 @@ export default function CodeViewer({ code, test, sandboxUrl }: { code: string; t
         {sandboxUrl && tab === 'preview' && (
           <a 
             href={sandboxUrl} 
-            target="_blank" 
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/30 border border-slate-700/50 text-xs text-slate-400 hover:text-slate-300 hover:border-blue-500/50 transition-all"
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,26 +118,36 @@ export default function CodeViewer({ code, test, sandboxUrl }: { code: string; t
       </div>
       <div className="flex-1 overflow-hidden relative">
         {tab === 'preview' ? (
-          sandboxUrl ? (
+          previewError ? (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-950 p-6">
+              <div className="text-center">
+                <div className="text-red-400 mb-2">Preview Error</div>
+                <div className="text-sm text-slate-500">{previewError}</div>
+              </div>
+            </div>
+          ) : sandboxUrl ? (
             <iframe 
               key={sandboxUrl}
               src={sandboxUrl}
               className="absolute inset-0 w-full h-full bg-white border-0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             />
-          ) : (
+          ) : previewHtml ? (
             <iframe 
               key={previewHtml}
               srcDoc={previewHtml}
               className="absolute inset-0 w-full h-full bg-white border-0"
               sandbox="allow-scripts allow-same-origin"
               title="preview"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-950">
+              <div className="text-slate-500">Loading preview...</div>
+            </div>
           )
         ) : (
-          <pre className="absolute inset-0 w-full h-full overflow-auto bg-slate-950 p-6 text-sm font-mono text-slate-300">
-            <code>{tab === 'code' ? cleanCode(code) : cleanCode(test)}</code>
+          <pre className="absolute inset-0 w-full h-full overflow-auto bg-slate-950 p-6 text-sm font-mono text-slate-300 leading-relaxed">
+            <code className="whitespace-pre-wrap break-words">{tab === 'code' ? cleanCode(code) : cleanCode(test)}</code>
           </pre>
         )}
       </div>
