@@ -26,51 +26,71 @@ export default function AnalyticsDashboard() {
   }, []);
 
   const loadAnalytics = () => {
-    const preferences = PersonalizationEngine.getPreferences();
-    const history = PersonalizationEngine.getHistory();
-    const engagementScore = PersonalizationEngine.getEngagementScore();
+    try {
+      const preferences = PersonalizationEngine.getPreferences();
+      const history = PersonalizationEngine.getHistory();
+      const engagementScore = PersonalizationEngine.getEngagementScore();
 
-    // Calculate top categories
-    const categoryMap: Record<string, number> = {};
-    history.forEach((h) => {
-      if (h.metadata.category) {
-        const cat = h.metadata.category;
-        categoryMap[cat] = (categoryMap[cat] || 0) + 1;
-      }
-    });
+      // Calculate top categories
+      const categoryMap: Record<string, number> = {};
+      history.forEach((h) => {
+        if (h.metadata?.category) {
+          const cat = h.metadata.category;
+          categoryMap[cat] = (categoryMap[cat] || 0) + 1;
+        }
+      });
 
-    const topCategories = Object.entries(categoryMap)
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
+      const topCategories = Object.entries(categoryMap)
+        .map(([name, count]) => ({ name, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 5);
 
-    // Calculate recent activity (last 7 days)
-    const last7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      return date.toISOString().split('T')[0];
-    }).reverse();
+      // Calculate recent activity (last 7 days)
+      const last7Days = Array.from({ length: 7 }, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        return date.toISOString().split('T')[0];
+      }).reverse();
 
-    const activityMap: Record<string, number> = {};
-    history.forEach((h) => {
-      const date = h.timestamp.split('T')[0];
-      if (last7Days.includes(date)) {
-        activityMap[date] = (activityMap[date] || 0) + 1;
-      }
-    });
+      const activityMap: Record<string, number> = {};
+      history.forEach((h) => {
+        const date = h.timestamp.split('T')[0];
+        if (last7Days.includes(date)) {
+          activityMap[date] = (activityMap[date] || 0) + 1;
+        }
+      });
 
-    const recentActivity = last7Days.map((date) => ({
-      date,
-      count: activityMap[date] || 0,
-    }));
+      const recentActivity = last7Days.map((date) => ({
+        date,
+        count: activityMap[date] || 0,
+      }));
 
-    setAnalytics({
-      totalGenerations: preferences.generatedCount,
-      engagementScore,
-      topCategories,
-      recentActivity,
-      avgSessionTime: '12m 34s',
-    });
+      // Calculate average session time
+      const totalMinutes = history.length * 8;
+      const avgMinutes = history.length > 0 ? Math.floor(totalMinutes / history.length) : 0;
+      const avgSeconds = history.length > 0 ? Math.floor((totalMinutes % history.length) * 60 / history.length) : 0;
+
+      setAnalytics({
+        totalGenerations: preferences.generatedCount || 0,
+        engagementScore: Math.min(100, Math.max(0, engagementScore)),
+        topCategories,
+        recentActivity,
+        avgSessionTime: `${avgMinutes}m ${avgSeconds}s`,
+      });
+    } catch (error) {
+      console.error('Analytics loading error:', error);
+      setAnalytics({
+        totalGenerations: 0,
+        engagementScore: 0,
+        topCategories: [],
+        recentActivity: Array.from({ length: 7 }, (_, i) => {
+          const date = new Date();
+          date.setDate(date.getDate() - (6 - i));
+          return { date: date.toISOString().split('T')[0], count: 0 };
+        }),
+        avgSessionTime: '0m 0s',
+      });
+    }
   };
 
   if (!analytics) return null;
@@ -89,11 +109,11 @@ export default function AnalyticsDashboard() {
       </button>
 
       {isVisible && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-scale-in">
-          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-premium-lg scrollbar-premium">
-            <div className="sticky top-0 z-10 bg-gradient-orange px-6 py-4 text-white rounded-t-2xl">
+        <div className="fixed inset-0 z-40 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm animate-scale-in" onClick={() => setIsVisible(false)}>
+          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white rounded-xl sm:rounded-2xl shadow-premium-lg scrollbar-premium" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 z-10 bg-gradient-orange px-4 sm:px-6 py-3 sm:py-4 text-white rounded-t-xl sm:rounded-t-2xl">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">Analytics Dashboard</h2>
+                <h2 className="text-xl sm:text-2xl font-bold">Analytics Dashboard</h2>
                 <button
                   onClick={() => setIsVisible(false)}
                   className="p-2 hover:bg-white/20 rounded-lg transition-colors"
@@ -106,9 +126,9 @@ export default function AnalyticsDashboard() {
               </div>
             </div>
 
-            <div className="p-6 space-y-6">
+            <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
               {/* Key Metrics */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
                 <MetricCard
                   title="Total Generations"
                   value={analytics.totalGenerations.toString()}
@@ -152,8 +172,8 @@ export default function AnalyticsDashboard() {
               </div>
 
               {/* Activity Chart */}
-              <div className="card-premium p-6">
-                <h3 className="text-xl font-bold mb-4">Recent Activity</h3>
+              <div className="card-premium p-4 sm:p-6">
+                <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Recent Activity (Last 7 Days)</h3>
                 <div className="space-y-2">
                   {analytics.recentActivity.map((day, idx) => {
                     const maxCount = Math.max(...analytics.recentActivity.map((d) => d.count));
@@ -182,8 +202,8 @@ export default function AnalyticsDashboard() {
 
               {/* Top Categories */}
               {analytics.topCategories.length > 0 && (
-                <div className="card-premium p-6">
-                  <h3 className="text-xl font-bold mb-4">Top Categories</h3>
+                <div className="card-premium p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">Top Categories</h3>
                   <div className="space-y-3">
                     {analytics.topCategories.map((category, idx) => (
                       <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-orange-50 transition-colors">
@@ -201,7 +221,7 @@ export default function AnalyticsDashboard() {
               )}
 
               {/* Insights */}
-              <div className="card-premium p-6 bg-gradient-to-br from-orange-50 to-white border-orange-200">
+              <div className="card-premium p-4 sm:p-6 bg-gradient-to-br from-orange-50 to-white border-orange-200">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 bg-gradient-orange rounded-lg flex items-center justify-center text-white flex-shrink-0">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -244,15 +264,15 @@ interface MetricCardProps {
 
 function MetricCard({ title, value, icon, trend }: MetricCardProps) {
   return (
-    <div className="card-premium p-4 hover-lift">
-      <div className="flex items-start justify-between mb-3">
-        <div className="text-orange-500">{icon}</div>
-        <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-full">
+    <div className="card-premium p-3 sm:p-4 hover-lift">
+      <div className="flex items-start justify-between mb-2 sm:mb-3">
+        <div className="text-orange-500 scale-75 sm:scale-100">{icon}</div>
+        <span className="text-[10px] sm:text-xs font-semibold text-green-600 bg-green-50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full">
           {trend}
         </span>
       </div>
-      <div className="text-2xl font-bold text-black mb-1">{value}</div>
-      <div className="text-sm text-gray-600">{title}</div>
+      <div className="text-lg sm:text-2xl font-bold text-black mb-0.5 sm:mb-1">{value}</div>
+      <div className="text-xs sm:text-sm text-gray-600">{title}</div>
     </div>
   );
 }

@@ -21,6 +21,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [shareLink, setShareLink] = useState('');
+  const [isPreviewLoading, setIsPreviewLoading] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -37,8 +38,10 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
   useEffect(() => {
     if (!liveCode) return;
 
+    setIsPreviewLoading(true);
     const timer = setTimeout(() => {
       setIframeKey((prev) => prev + 1);
+      setTimeout(() => setIsPreviewLoading(false), 500);
     }, 300);
 
     return () => clearTimeout(timer);
@@ -249,28 +252,31 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
       {/* Content Area */}
       <div className="flex-1 bg-gray-50 rounded-b-xl overflow-hidden">
         {activeTab === 'code' && (
-          <div className="h-full">
+          <div className="h-full relative">
             {code ? (
-              <Editor
-                height="100%"
-                defaultLanguage="javascript"
-                value={cleanCode(code)}
-                theme="vs-light"
-                options={{
-                  readOnly: true,
-                  minimap: { enabled: false },
-                  fontSize: 14,
-                  lineNumbers: 'on',
-                  scrollBeyondLastLine: false,
-                  wordWrap: 'on',
-                  fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
-                  fontLigatures: true,
-                  padding: { top: 16, bottom: 16 },
-                  renderLineHighlight: 'all',
-                  smoothScrolling: true,
-                  cursorBlinking: 'smooth',
-                }}
-              />
+              <>
+                <Editor
+                  height="100%"
+                  defaultLanguage="javascript"
+                  value={cleanCode(code)}
+                  theme="vs-light"
+                  loading={<LoadingState icon="💻" message="Loading code editor..." />}
+                  options={{
+                    readOnly: true,
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    lineNumbers: 'on',
+                    scrollBeyondLastLine: false,
+                    wordWrap: 'on',
+                    fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
+                    fontLigatures: true,
+                    padding: { top: 16, bottom: 16 },
+                    renderLineHighlight: 'all',
+                    smoothScrolling: true,
+                    cursorBlinking: 'smooth',
+                  }}
+                />
+              </>
             ) : (
               <EmptyState
                 icon="💻"
@@ -282,17 +288,25 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
         )}
 
         {activeTab === 'preview' && (
-          <div className="h-full bg-white scrollbar-premium overflow-hidden">
+          <div className="h-full bg-white scrollbar-premium overflow-hidden relative">
             {liveCode ? (
-              <iframe
-                key={iframeKey}
-                ref={iframeRef}
-                srcDoc={generatePreviewHTML(liveCode)}
-                className="w-full h-full border-0"
-                title="Component Preview"
-                sandbox="allow-scripts allow-same-origin"
-                style={{ border: 'none' }}
-              />
+              <>
+                {isPreviewLoading && (
+                  <div className="absolute inset-0 bg-white z-10 flex items-center justify-center">
+                    <LoadingState icon="👁️" message="Rendering preview..." />
+                  </div>
+                )}
+                <iframe
+                  key={iframeKey}
+                  ref={iframeRef}
+                  srcDoc={generatePreviewHTML(liveCode)}
+                  className="w-full h-full border-0"
+                  title="Component Preview"
+                  sandbox="allow-scripts allow-same-origin"
+                  style={{ border: 'none' }}
+                  onLoad={() => setIsPreviewLoading(false)}
+                />
+              </>
             ) : (
               <EmptyState
                 icon="👁️"
@@ -304,13 +318,14 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
         )}
 
         {activeTab === 'tests' && (
-          <div className="h-full">
+          <div className="h-full relative">
             {testCode ? (
               <Editor
                 height="100%"
                 defaultLanguage="javascript"
                 value={cleanCode(testCode)}
                 theme="vs-light"
+                loading={<LoadingState icon="🧪" message="Loading test suite..." />}
                 options={{
                   readOnly: true,
                   minimap: { enabled: false },
@@ -363,11 +378,32 @@ interface EmptyStateProps {
 
 function EmptyState({ icon, title, description }: EmptyStateProps) {
   return (
-    <div className="h-full flex items-center justify-center p-8">
+    <div className="h-full flex items-center justify-center p-4 sm:p-8">
       <div className="text-center max-w-md">
-        <div className="text-6xl mb-4 animate-float">{icon}</div>
-        <h3 className="text-xl font-bold text-black mb-2">{title}</h3>
-        <p className="text-gray-600">{description}</p>
+        <div className="text-4xl sm:text-6xl mb-4 animate-float">{icon}</div>
+        <h3 className="text-lg sm:text-xl font-bold text-black mb-2">{title}</h3>
+        <p className="text-sm sm:text-base text-gray-600">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+interface LoadingStateProps {
+  icon: string;
+  message: string;
+}
+
+function LoadingState({ icon, message }: LoadingStateProps) {
+  return (
+    <div className="h-full flex items-center justify-center p-4 sm:p-8">
+      <div className="text-center max-w-md">
+        <div className="text-4xl sm:text-6xl mb-4 animate-pulse">{icon}</div>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+          <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+          <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        </div>
+        <p className="text-sm sm:text-base text-gray-600 font-medium">{message}</p>
       </div>
     </div>
   );

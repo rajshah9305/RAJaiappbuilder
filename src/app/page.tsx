@@ -6,12 +6,13 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PromptInput from '@/components/PromptInput';
 import CodeViewer from '@/components/CodeViewer';
 import AgentProgress, { AgentStage } from '@/components/AgentProgress';
 import AnalyticsDashboard from '@/components/AnalyticsDashboard';
 import Toast from '@/components/Toast';
+import { PersonalizationEngine } from '@/lib/personalization';
 
 export default function Home() {
   const [generatedCode, setGeneratedCode] = useState('');
@@ -31,6 +32,9 @@ export default function Home() {
     setCurrentStage('analyzing');
     setProgress(0);
     setStageMessage('Analyzing your requirements...');
+
+    // Track generation in personalization engine
+    PersonalizationEngine.trackAction(prompt);
 
     try {
       const response = await fetch('/api/generate', {
@@ -164,10 +168,10 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <main className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {/* Left Panel - Input & Progress */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <PromptInput onGenerate={handleGenerate} isLoading={isGenerating} />
             
             {isGenerating && (
@@ -181,7 +185,7 @@ export default function Home() {
 
           {/* Right Panel - Code Viewer */}
           <div className="lg:sticky lg:top-24 h-fit">
-            <div className="card-premium overflow-hidden" style={{ height: 'calc(100vh - 12rem)' }}>
+            <div className="card-premium overflow-hidden" style={{ minHeight: '500px', height: 'calc(100vh - 12rem)' }}>
               <CodeViewer code={generatedCode} testCode={generatedTests} />
             </div>
           </div>
@@ -203,9 +207,9 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="mt-20 border-t border-gray-200 bg-white/50 backdrop-blur-sm">
-        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="mt-12 sm:mt-16 lg:mt-20 border-t border-gray-200 bg-white/50 backdrop-blur-sm">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
             <div className="text-center sm:text-left">
               <p className="text-sm font-semibold text-black">
                 RAJ AI APP BUILDER

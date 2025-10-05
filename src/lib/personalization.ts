@@ -64,19 +64,38 @@ export class PersonalizationEngine {
   /**
    * Track user action for personalization
    */
-  static trackAction(action: string, metadata: Record<string, any>): void {
+  static trackAction(action: string, metadata: Record<string, any> = {}): void {
     if (typeof window === 'undefined') return;
 
-    const history = this.getHistory();
-    history.unshift({
-      action,
-      metadata,
-      timestamp: new Date().toISOString(),
-    });
+    try {
+      const history = this.getHistory();
+      
+      // Auto-detect category from prompt
+      if (!metadata.category && action) {
+        metadata.category = this.detectCategory(action);
+      }
+      
+      // Store prompt for tracking
+      if (!metadata.prompt) {
+        metadata.prompt = action;
+      }
 
-    // Keep only recent history
-    const trimmed = history.slice(0, this.MAX_HISTORY);
-    localStorage.setItem(this.HISTORY_KEY, JSON.stringify(trimmed));
+      history.unshift({
+        action: 'generate',
+        metadata,
+        timestamp: new Date().toISOString(),
+      });
+
+      // Keep only recent history
+      const trimmed = history.slice(0, this.MAX_HISTORY);
+      localStorage.setItem(this.HISTORY_KEY, JSON.stringify(trimmed));
+      
+      // Update generation count
+      const prefs = this.getPreferences();
+      this.savePreferences({ generatedCount: prefs.generatedCount + 1 });
+    } catch (error) {
+      console.error('Error tracking action:', error);
+    }
   }
 
   /**
@@ -235,12 +254,35 @@ export class PersonalizationEngine {
     const categories: Record<string, number> = {};
 
     history.forEach((h) => {
-      if (h.metadata.category) {
+      if (h.metadata?.category) {
         const cat = h.metadata.category.toLowerCase();
         categories[cat] = (categories[cat] || 0) + 1;
       }
     });
 
     return categories;
+  }
+
+  /**
+   * Detect category from prompt text
+   */
+  private static detectCategory(prompt: string): string {
+    const lower = prompt.toLowerCase();
+    
+    if (lower.includes('todo') || lower.includes('task') || lower.includes('note')) {
+      return 'Productivity';
+    } else if (lower.includes('portfolio') || lower.includes('gallery') || lower.includes('showcase')) {
+      return 'Creative';
+    } else if (lower.includes('dashboard') || lower.includes('analytics') || lower.includes('chart')) {
+      return 'Business';
+    } else if (lower.includes('game') || lower.includes('quiz') || lower.includes('puzzle')) {
+      return 'Entertainment';
+    } else if (lower.includes('shop') || lower.includes('cart') || lower.includes('product')) {
+      return 'Commerce';
+    } else if (lower.includes('chat') || lower.includes('message') || lower.includes('social')) {
+      return 'Social';
+    } else {
+      return 'General';
+    }
   }
 }
