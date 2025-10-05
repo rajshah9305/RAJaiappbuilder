@@ -168,8 +168,8 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+      <main className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 sm:gap-8 lg:gap-12">
           {/* Left Panel - Input & Progress */}
           <div className="space-y-4 sm:space-y-6">
             <PromptInput onGenerate={handleGenerate} isLoading={isGenerating} />
@@ -185,8 +185,11 @@ export default function Home() {
 
           {/* Right Panel - Code Viewer */}
           <div className="lg:sticky lg:top-24 h-fit">
-            <div className="card-premium overflow-hidden" style={{ minHeight: '500px', height: 'calc(100vh - 12rem)' }}>
-              <CodeViewer code={generatedCode} testCode={generatedTests} />
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000" />
+              <div className="relative card-premium overflow-hidden shadow-2xl" style={{ minHeight: '500px', height: 'calc(100vh - 12rem)' }}>
+                <CodeViewer code={generatedCode} testCode={generatedTests} />
+              </div>
             </div>
           </div>
         </div>

@@ -167,16 +167,16 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
   return (
     <div className={`flex flex-col h-full ${isFullscreen ? 'fixed inset-0 z-50 bg-white' : ''}`}>
       {/* Header with Tabs and Actions */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-gray-900 to-black text-white px-4 py-3 rounded-t-xl border-b border-gray-700">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white px-4 sm:px-6 py-4 border-b border-gray-800">
+        <div className="flex items-center gap-1 sm:gap-2">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 flex items-center gap-2 ${
+              className={`px-3 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 relative ${
                 activeTab === tab.id
-                  ? 'bg-orange-500 text-white shadow-[0_4px_12px_rgba(249,115,22,0.4)]'
-                  : 'bg-white/10 hover:bg-white/20 text-gray-300'
+                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-[0_4px_20px_rgba(249,115,22,0.5)] scale-105'
+                  : 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white'
               }`}
             >
               <span>{tab.icon}</span>
@@ -250,7 +250,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 bg-gray-50 rounded-b-xl overflow-hidden">
+      <div className="flex-1 bg-gradient-to-br from-gray-50 to-white overflow-hidden">
         {activeTab === 'code' && (
           <div className="h-full relative">
             {code ? (
