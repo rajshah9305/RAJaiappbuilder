@@ -1,9 +1,2 @@
-frontend/
-backend/
-scripts/
-*.md
-*.sh
 .github/
-docker-compose.yml
-Dockerfile
-nginx.conf
+*.log
