@@ -100,6 +100,24 @@ export default function Home() {
           )}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-slate-800/50 backdrop-blur-xl bg-slate-950/50 py-4">
+        <div className="max-w-[1800px] mx-auto px-6 text-center">
+          <p className="text-sm text-slate-500">
+            Developed and Built with ❤️ by{' '}
+            <a 
+              href="https://github.com/rajshah9305" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 transition-colors font-semibold"
+            >
+              Raj Shah
+            </a>
+            {' '}• Powered by Cerebras GPT-OSS-120B
+          </p>
+        </div>
+      </footer>
     </main>
   );
 }

@@ -1,7 +1,7 @@
 {
-  "name": "nlp-to-app-platform",
+  "name": "ai-app-factory",
   "version": "1.0.0",
-  "description": "Enterprise-grade platform that converts natural language to fully functional web applications using AI",
+  "description": "Elite AI-powered platform that converts natural language to React applications",
   "author": "Raj Shah <https://github.com/rajshah9305>",
   "license": "MIT",
   "repository": {
@@ -10,48 +10,31 @@
   },
   "keywords": [
     "ai",
-    "nlp",
     "code-generation",
     "nextjs",
     "cerebras",
-    "typescript"
+    "gpt-oss-120b",
+    "streaming",
+    "react"
   ],
-  "private": false,
   "scripts": {
-    "build": "prisma generate && next build",
     "dev": "next dev",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@e2b/sdk": "^0.10.0",
-    "@prisma/client": "^5.7.0",
-    "@radix-ui/react-dialog": "^1.0.5",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@upstash/redis": "^1.25.1",
-    "clsx": "^2.0.0",
-    "lucide-react": "^0.294.0",
-    "monaco-editor": "^0.44.0",
     "next": "14.0.4",
-    "openai": "^4.20.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.1.0",
-    "ws": "^8.14.2"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.17",
-    "@types/ws": "^8.5.10",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
-    "prisma": "^5.7.0",
     "tailwindcss": "^3.3.6",
-    "tsx": "^4.6.2",
     "typescript": "^5.3.3"
   }
 }
