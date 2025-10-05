@@ -11,6 +11,7 @@ import PromptInput from '@/components/PromptInput';
 import CodeViewer from '@/components/CodeViewer';
 import AgentProgress, { AgentStage } from '@/components/AgentProgress';
 import AnalyticsDashboard from '@/components/AnalyticsDashboard';
+import Toast from '@/components/Toast';
 
 export default function Home() {
   const [generatedCode, setGeneratedCode] = useState('');
@@ -19,6 +20,9 @@ export default function Home() {
   const [currentStage, setCurrentStage] = useState<AgentStage>('idle');
   const [progress, setProgress] = useState(0);
   const [stageMessage, setStageMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<'success' | 'error' | 'info'>('success');
 
   const handleGenerate = async (prompt: string) => {
     setIsGenerating(true);
@@ -87,12 +91,21 @@ export default function Home() {
               setCurrentStage('complete');
               setProgress(100);
               setStageMessage('✨ Generation complete!');
+              
+              // Show success toast
+              setToastMessage('🎉 App generated successfully!');
+              setToastType('success');
+              setShowToast(true);
+              
               setTimeout(() => {
                 setIsGenerating(false);
                 setCurrentStage('idle');
               }, 2000);
             } else if (parsed.stage === 'error') {
               console.error('Generation error:', parsed.error);
+              setToastMessage('❌ Generation failed. Please try again.');
+              setToastType('error');
+              setShowToast(true);
               setIsGenerating(false);
               setCurrentStage('idle');
             }
@@ -103,6 +116,9 @@ export default function Home() {
       }
     } catch (error) {
       console.error('Generation failed:', error);
+      setToastMessage('❌ Network error. Please check your connection.');
+      setToastType('error');
+      setShowToast(true);
       setIsGenerating(false);
       setCurrentStage('idle');
     }
@@ -176,6 +192,15 @@ export default function Home() {
 
       {/* Analytics Dashboard */}
       <AnalyticsDashboard />
+
+      {/* Toast Notification */}
+      {showToast && (
+        <Toast
+          message={toastMessage}
+          type={toastType}
+          onClose={() => setShowToast(false)}
+        />
+      )}
 
       {/* Footer */}
       <footer className="mt-20 border-t border-gray-200 bg-white/50 backdrop-blur-sm">

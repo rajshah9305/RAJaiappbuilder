@@ -85,6 +85,11 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
 
   const generatePreviewHTML = (componentCode: string) => {
     const cleaned = cleanCode(componentCode);
+    
+    // Extract component name if present, default to App
+    const componentNameMatch = cleaned.match(/function\s+(\w+)\s*\(/);
+    const componentName = componentNameMatch ? componentNameMatch[1] : 'App';
+    
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -92,8 +97,8 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Preview</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -101,7 +106,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
     body { 
       margin: 0; 
       padding: 20px; 
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
       background: white;
       min-height: 100vh;
     }
@@ -109,23 +114,49 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
       min-height: calc(100vh - 40px);
       width: 100%;
     }
+    .error-container {
+      padding: 20px;
+      background: #fee;
+      border: 2px solid #fcc;
+      border-radius: 8px;
+      color: #c00;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 50vh;">
+      <div style="text-align: center; color: #666;">
+        <div style="font-size: 24px; margin-bottom: 10px;">⏳</div>
+        <div>Loading preview...</div>
+      </div>
+    </div>
+  </div>
   <script type="text/babel">
-    const { useState, useEffect, useRef } = React;
-    ${cleaned}
-    
-    const rootElement = document.getElementById('root');
-    const root = ReactDOM.createRoot(rootElement);
-    
-    try {
-      root.render(<App />);
-    } catch (error) {
-      rootElement.innerHTML = '<div style="color: red; padding: 20px;">Error rendering component: ' + error.message + '</div>';
-      console.error('Preview error:', error);
-    }
+    (function() {
+      try {
+        const { useState, useEffect, useRef, useCallback, useMemo, Fragment } = React;
+        
+        ${cleaned}
+        
+        const rootElement = document.getElementById('root');
+        const root = ReactDOM.createRoot(rootElement);
+        
+        const ComponentToRender = typeof ${componentName} !== 'undefined' ? ${componentName} : (typeof App !== 'undefined' ? App : null);
+        
+        if (ComponentToRender) {
+          root.render(<ComponentToRender />);
+        } else {
+          rootElement.innerHTML = '<div class="error-container">Error: No component found. Make sure your component is named "App" or another valid name.</div>';
+        }
+      } catch (error) {
+        const rootElement = document.getElementById('root');
+        rootElement.innerHTML = '<div class="error-container"><strong>Preview Error:</strong><br/><br/>' + error.toString() + '<br/><br/><strong>Stack:</strong><br/>' + (error.stack || 'No stack trace') + '</div>';
+        console.error('Preview rendering error:', error);
+      }
+    })();
   </script>
 </body>
 </html>`;
