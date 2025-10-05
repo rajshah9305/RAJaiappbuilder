@@ -68,6 +68,7 @@ export default function PreviewPanel({ code, componentName, isGenerating }: Prev
     if (code && componentName && !isGenerating && !previewUrl && !loading) {
       createSandbox();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code, componentName, isGenerating]);
 
   const handleRefresh = () => {

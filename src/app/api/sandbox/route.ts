@@ -1,169 +1,28 @@
-import { Sandbox } from "e2b";
+// E2B Sandbox API Route - Currently Disabled
+// This feature requires E2B API setup and is optional
+// The main app preview works using iframe rendering without E2B
+
 import { NextRequest, NextResponse } from "next/server";
 
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
-  try {
-    const { code, componentName } = await req.json();
-
-    if (!code || !componentName) {
-      return NextResponse.json(
-        { error: "Missing code or componentName" },
-        { status: 400 }
-      );
-    }
-
-    console.log("Creating E2B sandbox...");
-    
-    const sandbox = await Sandbox.create({
-      timeoutMs: 5 * 60 * 1000,
-      apiKey: process.env.E2B_API_KEY,
-    });
-
-    console.log("Sandbox created:", sandbox.sandboxId);
-
-    console.log("Installing dependencies...");
-    await sandbox.commands.exec("npm install -g vite react react-dom");
-
-    console.log("Setting up project structure...");
-    await sandbox.files.makeDir("/home/user/app");
-    
-    const packageJson = {
-      name: "preview-app",
-      type: "module",
-      scripts: {
-        dev: "vite --host 0.0.0.0 --port 3000"
-      },
-      dependencies: {
-        react: "^18.2.0",
-        "react-dom": "^18.2.0"
-      },
-      devDependencies: {
-        "@vitejs/plugin-react": "^4.2.1",
-        vite: "^5.0.0"
-      }
-    };
-
-    await sandbox.files.write(
-      "/home/user/app/package.json",
-      JSON.stringify(packageJson, null, 2)
-    );
-
-    const viteConfig = `
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: '0.0.0.0',
-    port: 3000,
-    strictPort: true
-  }
-})
-`;
-
-    await sandbox.files.write("/home/user/app/vite.config.js", viteConfig);
-
-    const indexHtml = `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Live Preview</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
-`;
-
-    await sandbox.files.write("/home/user/app/index.html", indexHtml);
-
-    await sandbox.files.makeDir("/home/user/app/src");
-
-    await sandbox.files.write(`/home/user/app/src/${componentName}.jsx`, code);
-
-    const mainJsx = `
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import ${componentName} from './${componentName}.jsx'
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <${componentName} />
-  </React.StrictMode>,
-)
-`;
-
-    await sandbox.files.write("/home/user/app/src/main.jsx", mainJsx);
-
-    console.log("Installing npm packages...");
-    await sandbox.commands.exec("cd /home/user/app && npm install", {
-      timeout: 120000,
-    });
-
-    console.log("Starting dev server...");
-    sandbox.commands.exec("cd /home/user/app && npm run dev", {
-      background: true,
-      timeout: 180000,
-    });
-
-    console.log("Waiting for server to be ready...");
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
-    const previewUrl = `https://${sandbox.getHost(3000)}`;
-    
-    console.log("Preview URL:", previewUrl);
-
-    return NextResponse.json({
-      success: true,
-      sandboxId: sandbox.sandboxId,
-      previewUrl,
-      message: "Sandbox created and server started successfully",
-    });
-
-  } catch (error: any) {
-    console.error("Sandbox creation error:", error);
-    return NextResponse.json(
-      { 
-        error: "Failed to create sandbox", 
-        details: error.message,
-        stack: error.stack 
-      },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    { 
+      error: "E2B Sandbox feature is currently disabled",
+      message: "The main app uses iframe-based preview which works without E2B. This sandbox API is an optional advanced feature.",
+      suggestion: "Use the built-in preview tab which renders components directly in the browser."
+    },
+    { status: 501 }
+  );
 }
 
 export async function GET(req: NextRequest) {
-  const sandboxId = req.nextUrl.searchParams.get("sandboxId");
-  
-  if (!sandboxId) {
-    return NextResponse.json({ error: "Missing sandboxId" }, { status: 400 });
-  }
-
-  try {
-    const sandbox = await Sandbox.connect(sandboxId, {
-      apiKey: process.env.E2B_API_KEY,
-    });
-    
-    const isRunning = await sandbox.isRunning();
-    const previewUrl = isRunning ? `https://${sandbox.getHost(3000)}` : null;
-    
-    return NextResponse.json({
-      sandboxId,
-      isRunning,
-      previewUrl,
-    });
-  } catch (error: any) {
-    return NextResponse.json(
-      { error: "Failed to connect to sandbox", details: error.message },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    { 
+      error: "E2B Sandbox feature is currently disabled",
+      message: "This is an optional feature. The main app preview works without it."
+    },
+    { status: 501 }
+  );
 }

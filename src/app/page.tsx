@@ -191,7 +191,7 @@ export default function Home() {
                     <Code2 className="w-12 h-12 mx-auto opacity-50" />
                     <p>Code hidden</p>
                     <p className="text-sm text-blue-300/70">
-                      Click "Show Code" to view the generated code
+                      Click &ldquo;Show Code&rdquo; to view the generated code
                     </p>
                   </div>
                 </div>
