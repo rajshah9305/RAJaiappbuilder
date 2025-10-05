@@ -8,11 +8,11 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3-38bdf8?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Build](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge)](https://github.com/rajshah9305/NLPtoapp)
+[![Build](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge)](https://github.com/rajshah9305/RAJaiappbuilder)
 
 **Transform natural language descriptions into production-ready React applications with real-time AI streaming, intelligent personalization, and advanced analytics**
 
-[🌐 Live Demo](https://nlptoapp.vercel.app) • [📖 Documentation](#documentation) • [✨ Features](#elite-features) • [🚀 Quick Start](#quick-start)
+[🌐 Live Demo](https://raj-ai-app-builder.vercel.app) • [📖 Documentation](#documentation) • [✨ Features](#elite-features) • [🚀 Quick Start](#quick-start)
 
 </div>
 
@@ -148,8 +148,8 @@ Client-Side Rendering
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/rajshah9305/NLPtoapp.git
-   cd NLPtoapp
+   git clone https://github.com/rajshah9305/RAJaiappbuilder.git
+   cd RAJaiappbuilder
    ```
 
 2. **Install dependencies**
@@ -332,7 +332,7 @@ src/
 
 ### Deploy to Vercel (Recommended)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/rajshah9305/NLPtoapp)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/rajshah9305/RAJaiappbuilder)
 
 **Manual Deployment:**
 
@@ -433,14 +433,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Developer:** Raj Shah
 
 - **GitHub**: [@rajshah9305](https://github.com/rajshah9305)
-- **Repository**: [NLPtoapp](https://github.com/rajshah9305/NLPtoapp)
-- **Live Demo**: [nlptoapp.vercel.app](https://nlptoapp.vercel.app)
+- **Repository**: [RAJ AI APP BUILDER](https://github.com/rajshah9305/RAJaiappbuilder)
+- **Live Demo**: [raj-ai-app-builder.vercel.app](https://raj-ai-app-builder.vercel.app)
 
 ### Support Channels
 
-- 🐛 [Report Bug](https://github.com/rajshah9305/NLPtoapp/issues)
-- 💡 [Request Feature](https://github.com/rajshah9305/NLPtoapp/issues)
-- 📖 [Documentation](https://github.com/rajshah9305/NLPtoapp#documentation)
+- 🐛 [Report Bug](https://github.com/rajshah9305/RAJaiappbuilder/issues)
+- 💡 [Request Feature](https://github.com/rajshah9305/RAJaiappbuilder/issues)
+- 📖 [Documentation](https://github.com/rajshah9305/RAJaiappbuilder#documentation)
 
 ---
 
@@ -459,10 +459,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📈 Stats
 
-![GitHub Stars](https://img.shields.io/github/stars/rajshah9305/NLPtoapp?style=social)
-![GitHub Forks](https://img.shields.io/github/forks/rajshah9305/NLPtoapp?style=social)
-![GitHub Issues](https://img.shields.io/github/issues/rajshah9305/NLPtoapp)
-![GitHub PRs](https://img.shields.io/github/issues-pr/rajshah9305/NLPtoapp)
+![GitHub Stars](https://img.shields.io/github/stars/rajshah9305/RAJaiappbuilder?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/rajshah9305/RAJaiappbuilder?style=social)
+![GitHub Issues](https://img.shields.io/github/issues/rajshah9305/RAJaiappbuilder)
+![GitHub PRs](https://img.shields.io/github/issues-pr/rajshah9305/RAJaiappbuilder)
 
 ---
 
@@ -476,6 +476,6 @@ Powered by **Cerebras GPT-OSS-120B**
 
 ⭐ Star this repository if you find it helpful!
 
-[🌐 Live Demo](https://nlptoapp.vercel.app) • [📖 Full Documentation](ELITE_FEATURES.md) • [🚀 Get Started](#quick-start)
+[🌐 Live Demo](https://raj-ai-app-builder.vercel.app) • [📖 Documentation](#documentation) • [🚀 Get Started](#quick-start)
 
 </div>

@@ -129,36 +129,45 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <div className="min-h-screen morphing-bg relative overflow-hidden">
+      {/* Animated Background Particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 floating-particle" />
+        <div className="absolute top-40 right-10 w-96 h-96 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-10 floating-particle" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-15 floating-particle" style={{ animationDelay: '4s' }} />
+      </div>
+
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-gray-200 shadow-sm">
+      <header className="sticky top-0 z-40 glass-effect border-b border-gray-200/50 shadow-lg">
         <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-orange rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                R
+          <div className="flex items-center justify-between h-20">
+            <div className="flex items-center gap-4">
+              <div className="relative w-12 h-12 bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-2xl glow-orange animate-gradient">
+                <span className="relative z-10">R</span>
+                <div className="absolute inset-0 bg-white/20 rounded-2xl blur-sm" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-black">
-                  RAJ <span className="gradient-text">AI</span> APP BUILDER
+                <h1 className="text-2xl font-black text-black flex items-center gap-2">
+                  RAJ <span className="text-gradient-premium">AI</span> APP BUILDER
+                  <span className="px-2 py-0.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[10px] font-bold rounded-full">ELITE</span>
                 </h1>
-                <p className="text-xs text-gray-600 hidden sm:block">Elite AI-Powered Platform</p>
+                <p className="text-xs text-gray-600 hidden sm:block font-semibold">⚡ Elite AI-Powered Development Platform</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-xs font-semibold">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                Online
+            <div className="flex items-center gap-3">
+              <span className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 rounded-full text-xs font-bold border border-green-200 glow-orange">
+                <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse shadow-lg" />
+                Live & Active
               </span>
               <a
                 href="https://github.com/rajshah9305/NLPtoapp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/50 rounded-xl transition-all duration-300 hover:scale-110 group ripple-effect"
                 aria-label="GitHub"
               >
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6 transition-transform group-hover:rotate-12" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                 </svg>
               </a>
@@ -168,33 +177,39 @@ export default function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-6 sm:gap-8 lg:gap-12">
+      <main className="relative max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 sm:gap-10 lg:gap-16">
           {/* Left Panel - Input & Progress */}
-          <div className="space-y-4 sm:space-y-6">
+          <div className="space-y-6 sm:space-y-8 animate-slide-up">
             <PromptInput onGenerate={handleGenerate} isLoading={isGenerating} />
             
             {isGenerating && (
-              <AgentProgress
-                stage={currentStage}
-                progress={progress}
-                message={stageMessage}
-              />
+              <div className="animate-scale-in">
+                <AgentProgress
+                  stage={currentStage}
+                  progress={progress}
+                  message={stageMessage}
+                />
+              </div>
             )}
           </div>
 
           {/* Right Panel - Code Viewer */}
-          <div className="lg:sticky lg:top-24 h-fit">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl blur opacity-20 group-hover:opacity-30 transition duration-1000" />
-              <div className="relative card-premium overflow-hidden shadow-2xl" style={{ minHeight: '500px', height: 'calc(100vh - 12rem)' }}>
+          <div className="lg:sticky lg:top-28 h-fit animate-slide-in-right">
+            <div className="relative group">
+              {/* Glowing border effect */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-all duration-700 animate-gradient" style={{ backgroundSize: '200% 200%' }} />
+              
+              {/* Main card */}
+              <div className="relative card-elite overflow-hidden shadow-2xl border-gradient glow-orange-intense" style={{ minHeight: '600px', height: 'calc(100vh - 14rem)' }}>
                 <CodeViewer code={generatedCode} testCode={generatedTests} />
               </div>
+
+              {/* Corner accent */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
             </div>
           </div>
         </div>
-
-
       </main>
 
       {/* Analytics Dashboard */}
@@ -210,41 +225,47 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="mt-12 sm:mt-16 lg:mt-20 border-t border-gray-200 bg-white/50 backdrop-blur-sm pb-20 sm:pb-8">
-        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+      <footer className="relative mt-16 sm:mt-20 lg:mt-24 border-t border-gray-200/50 glass-effect pb-20 sm:pb-10">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
             <div className="text-center sm:text-left">
-              <p className="text-sm font-semibold text-black">
-                RAJ AI APP BUILDER
+              <p className="text-base font-black text-black flex items-center justify-center sm:justify-start gap-2">
+                <span className="text-gradient-premium">RAJ AI APP BUILDER</span>
+                <span className="px-2 py-0.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[8px] font-bold rounded-full">v1.0</span>
               </p>
-              <p className="text-xs text-gray-600 mt-1">
-                Built and Developed by <a href="https://github.com/rajshah9305" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-700">RAJ SHAH</a>
+              <p className="text-sm text-gray-700 mt-2 font-medium">
+                Built and Developed by <a href="https://github.com/rajshah9305" target="_blank" rel="noopener noreferrer" className="font-bold text-orange-600 hover:text-orange-700 transition-colors">RAJ SHAH</a>
               </p>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs text-gray-500 mt-1 flex items-center justify-center sm:justify-start gap-1">
+                <span className="inline-block w-2 h-2 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full animate-pulse" />
                 Powered by Cerebras GPT-OSS-120B
               </p>
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-600">
+            <div className="flex items-center gap-5 text-sm">
               <a
                 href="https://github.com/rajshah9305"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-orange-600 transition-colors font-medium"
+                className="px-4 py-2 bg-white/50 hover:bg-white rounded-xl font-bold text-gray-700 hover:text-orange-600 transition-all duration-300 hover:scale-105 border border-gray-200 hover:border-orange-300"
               >
                 @rajshah9305
               </a>
-              <span className="text-gray-300">•</span>
               <a
                 href="https://github.com/rajshah9305/NLPtoapp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-orange-600 transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-bold hover:shadow-[0_10px_40px_rgba(249,115,22,0.4)] transition-all duration-300 hover:scale-105"
               >
-                Open Source
+                ⭐ Star on GitHub
               </a>
-              <span className="text-gray-300">•</span>
-              <span className="text-gray-500">MIT License</span>
             </div>
+          </div>
+          
+          {/* Copyright */}
+          <div className="mt-6 pt-6 border-t border-gray-200/50 text-center">
+            <p className="text-xs text-gray-500">
+              © 2024 RAJ AI APP BUILDER. Open Source under MIT License. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>

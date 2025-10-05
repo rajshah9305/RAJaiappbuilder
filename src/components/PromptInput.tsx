@@ -125,63 +125,48 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
   return (
     <div className="space-y-6">
       {/* Welcome Message */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-6 sm:p-8 text-white animate-slide-up">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2" />
+      <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl p-8 sm:p-10 text-white animate-slide-up glow-orange-intense border-gradient">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-white/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-60 h-60 bg-orange-400/30 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2" />
         <div className="relative">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{welcomeMessage}</h1>
-          <p className="text-orange-100 text-base sm:text-lg">Transform your ideas into reality with AI-powered code generation</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-3 flex items-center gap-3 text-shadow-orange">
+            {welcomeMessage}
+            <span className="text-4xl animate-float">🚀</span>
+          </h1>
+          <p className="text-orange-50 text-lg sm:text-xl font-semibold">Transform your ideas into reality with AI-powered code generation</p>
         </div>
       </div>
 
 
 
       {/* Main Input Form */}
-      <form onSubmit={handleSubmit} className="space-y-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+      <form onSubmit={handleSubmit} className="space-y-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
         <div className="relative">
-          <div className="relative">
+          <div className="relative group">
             <textarea
               ref={textareaRef}
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Describe the app you want to build... (e.g., 'Create a modern todo app with dark mode')"
-              className="input-premium min-h-[140px] resize-none pr-12 text-base scrollbar-premium focus-ring-orange"
+              className="input-elite min-h-[160px] resize-none pr-16 text-lg scrollbar-premium focus-ring-orange"
               disabled={isLoading}
               aria-label="Application description"
             />
-            <div className="absolute bottom-3 right-3 flex items-center gap-2">
-              <span className="text-xs text-gray-400 hidden sm:block">
-                {prompt.length > 0 ? `${prompt.length} chars` : 'Cmd/Ctrl + Enter'}
+            <div className="absolute bottom-4 right-4 flex items-center gap-2">
+              <span className="text-xs text-gray-600 font-bold hidden sm:block bg-gradient-to-r from-orange-50 to-orange-100 px-3 py-1.5 rounded-lg border border-orange-200">
+                {prompt.length > 0 ? `${prompt.length} chars` : '⌘/Ctrl + Enter'}
               </span>
             </div>
+            
+            {/* Focus glow effect */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 opacity-0 group-focus-within:opacity-20 blur-xl transition-opacity duration-300 pointer-events-none" />
           </div>
-
-          {/* Smart Completions Dropdown */}
-          {showCompletions && smartCompletions.length > 0 && (
-            <div className="absolute z-10 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-premium-lg animate-scale-in">
-              <div className="p-2 border-b border-gray-100 flex items-center gap-2">
-                <svg className="w-4 h-4 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span className="text-xs font-semibold text-gray-600">Recent similar prompts</span>
-              </div>
-              {smartCompletions.map((completion, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setPrompt(completion)}
-                  className="w-full px-4 py-3 text-left hover:bg-orange-50 transition-colors text-sm border-b border-gray-100 last:border-0"
-                >
-                  {completion}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <svg className="w-5 h-5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex items-center gap-3 text-sm font-medium text-gray-700 bg-blue-50/80 backdrop-blur-sm px-4 py-3 rounded-xl border border-blue-200/50">
+            <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span className="hidden sm:inline">Be specific for better results</span>
@@ -189,20 +174,20 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
           <button
             type="submit"
             disabled={!prompt.trim() || isLoading}
-            className="btn-primary px-8 py-3 flex items-center gap-2 group"
+            className="btn-elite flex items-center gap-3 group ripple-effect disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+                <svg className="animate-spin h-6 w-6" viewBox="0 0 24 24" fill="none">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Generating...
+                <span className="font-bold">Generating Magic...</span>
               </>
             ) : (
               <>
-                <span>Generate App</span>
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <span className="font-bold">⚡ Generate App</span>
+                <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </>
@@ -212,9 +197,12 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
       </form>
 
       {/* Template Gallery */}
-      <div className="space-y-3 animate-slide-up" style={{ animationDelay: '0.3s' }}>
-        <h3 className="text-lg font-bold text-black">App Templates</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="space-y-5 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+        <div className="flex items-center gap-3">
+          <h3 className="text-2xl font-black text-gradient-premium">⚡ Quick Start Templates</h3>
+          <div className="h-px flex-1 bg-gradient-to-r from-orange-200 to-transparent" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {templates.map((template, idx) => (
             <button
               key={idx}
@@ -223,18 +211,21 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
                 setShowSuggestions(false);
               }}
               disabled={isLoading}
-              className="card-premium p-4 text-left hover-lift group"
+              className="card-elite p-6 text-left group relative overflow-hidden ripple-effect"
             >
-              <div className="flex items-start gap-3 mb-3">
-                <span className="text-3xl group-hover:scale-110 transition-transform">{template.icon}</span>
-                <div className="flex-1">
-                  <h4 className="font-bold text-black group-hover:text-orange-600 transition-colors">
-                    {template.title}
-                  </h4>
-                  <span className="text-xs badge-orange mt-1 inline-block">{template.category}</span>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-400/20 to-transparent rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+              <div className="relative">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="text-4xl group-hover:scale-125 group-hover:rotate-12 transition-all duration-300">{template.icon}</div>
+                  <div className="flex-1">
+                    <h4 className="font-black text-lg text-black group-hover:text-gradient-premium transition-colors">
+                      {template.title}
+                    </h4>
+                    <span className="text-xs font-bold px-3 py-1 bg-gradient-to-r from-orange-100 to-orange-200 text-orange-700 rounded-full mt-2 inline-block border border-orange-300">{template.category}</span>
+                  </div>
                 </div>
+                <p className="text-sm text-gray-600 line-clamp-2 font-medium">{template.description}</p>
               </div>
-              <p className="text-sm text-gray-600 line-clamp-2">{template.description}</p>
             </button>
           ))}
         </div>

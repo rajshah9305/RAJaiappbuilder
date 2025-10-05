@@ -167,38 +167,41 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
   return (
     <div className={`flex flex-col h-full ${isFullscreen ? 'fixed inset-0 z-50 bg-white' : ''}`}>
       {/* Header with Tabs and Actions */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white px-4 sm:px-6 py-4 border-b border-gray-800">
-        <div className="flex items-center gap-1 sm:gap-2">
+      <div className="flex items-center justify-between bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white px-6 sm:px-8 py-5 border-b border-gray-800/50 backdrop-blur-sm">
+        <div className="flex items-center gap-2 sm:gap-3">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 flex items-center gap-2 relative ${
+              className={`px-4 sm:px-6 py-3 rounded-2xl font-black text-sm sm:text-base transition-all duration-500 flex items-center gap-2 relative ripple-effect ${
                 activeTab === tab.id
-                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-[0_4px_20px_rgba(249,115,22,0.5)] scale-105'
-                  : 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white'
+                  ? 'bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white shadow-[0_8px_30px_rgba(249,115,22,0.6)] scale-110 glow-orange-intense'
+                  : 'bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white hover:scale-105'
               }`}
             >
-              <span>{tab.icon}</span>
+              <span className="text-lg">{tab.icon}</span>
               <span className="hidden sm:inline">{tab.label}</span>
+              {activeTab === tab.id && (
+                <div className="absolute inset-0 rounded-2xl bg-white/20 animate-pulse" />
+              )}
             </button>
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {code && (
             <>
               <button
                 onClick={handleCopy}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors group relative"
+                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 group relative ripple-effect hover:scale-110"
                 title="Copy code"
               >
                 {copied ? (
-                  <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                 )}
@@ -206,40 +209,40 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
 
               <button
                 onClick={handleDownload}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 group ripple-effect hover:scale-110"
                 title="Download code"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
               </button>
 
               <button
                 onClick={handleShare}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors relative"
+                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 relative group ripple-effect hover:scale-110"
                 title="Share"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                 </svg>
                 {shareLink && (
-                  <span className="absolute -top-10 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    Link copied!
+                  <span className="absolute -top-12 right-0 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-2 rounded-lg whitespace-nowrap shadow-lg animate-scale-in">
+                    ✓ Link copied!
                   </span>
                 )}
               </button>
 
               <button
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 group ripple-effect hover:scale-110"
                 title={isFullscreen ? 'Minimize' : 'Fullscreen'}
               >
                 {isFullscreen ? (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
                   </svg>
                 ) : (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
                   </svg>
                 )}
