@@ -1,7 +1,7 @@
 {
-  "name": "ai-app-factory",
+  "name": "raj-ai-app-builder",
   "version": "1.0.0",
-  "description": "Elite AI-powered platform that converts natural language to React applications",
+  "description": "RAJ AI APP BUILDER - Elite AI-powered platform by Raj Shah that converts natural language to React applications",
   "author": "Raj Shah <https://github.com/rajshah9305>",
   "license": "MIT",
   "repository": {

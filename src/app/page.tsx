@@ -33,7 +33,7 @@ export default function Home() {
               </div>
               <div>
                 <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                  AI App Factory
+                  RAJ AI APP BUILDER
                 </h1>
                 <p className="text-xs text-cyan-400/70">Powered by Cerebras GPT-OSS-120B</p>
               </div>

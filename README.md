@@ -1,19 +1,21 @@
-# AI App Factory
+# RAJ AI APP BUILDER
 
-Elite AI-powered platform that converts natural language into fully functional React applications with real-time streaming. Built with Next.js 14 and Cerebras GPT-OSS-120B.
+Elite AI-powered platform that converts natural language into fully functional React applications with real-time streaming. Built by Raj Shah using Next.js 14 and Cerebras GPT-OSS-120B.
 
 ## ✨ Features
 
 - **Real-time streaming** - Watch AI generate code token by token
+- **Monaco Editor** - Professional code editor with syntax highlighting
 - **Server-Sent Events** - Live progress updates
 - **Production-ready** - No mocks, no fallbacks
-- **Beautiful UI** - Tailwind CSS with smooth animations
+- **Elite UI** - Cyan/Emerald gradient theme with animated backgrounds
 - **Instant preview** - Live React component rendering
 
 ## 🛠 Tech Stack
 
 - **Framework**: Next.js 14 (App Router)
 - **AI Model**: Cerebras GPT-OSS-120B (streaming)
+- **Editor**: Monaco Editor
 - **Styling**: Tailwind CSS
 - **Deployment**: Vercel
 
@@ -63,4 +65,4 @@ MIT License
 
 ---
 
-**Developed and Built with ❤️ by [Raj Shah](https://github.com/rajshah9305)**
+**RAJ AI APP BUILDER - Developed and Built with ❤️ by [Raj Shah](https://github.com/rajshah9305)**
