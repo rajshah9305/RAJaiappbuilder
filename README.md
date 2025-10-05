@@ -11,7 +11,7 @@
 
 **Transform natural language descriptions into production-ready React applications with real-time AI streaming**
 
-[Live Demo](https://nlptoapp.vercel.app) • [Documentation](#documentation) • [Report Bug](https://github.com/rajshah9305/NLPtoapp/issues) • [Request Feature](https://github.com/rajshah9305/NLPtoapp/issues)
+[Documentation](#documentation) • [Report Bug](https://github.com/rajshah9305/NLPtoapp/issues) • [Request Feature](https://github.com/rajshah9305/NLPtoapp/issues)
 
 </div>
 
