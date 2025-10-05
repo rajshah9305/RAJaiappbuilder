@@ -102,7 +102,7 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
     <div className="space-y-4">
       <div className="relative">
         <textarea
-          className="w-full p-4 rounded-xl bg-slate-800/30 text-slate-100 border border-blue-500/30 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all resize-none placeholder:text-slate-500"
+          className="w-full p-4 rounded-xl bg-purple-950/30 text-purple-100 border border-purple-500/30 focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20 focus:outline-none transition-all resize-none placeholder:text-purple-400"
           rows={4}
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
@@ -115,7 +115,7 @@ export default function PromptInput({ onGenerated, onAgentUpdate }: any) {
 
 Example: Create a todo list app with dark mode and local storage"
         />
-        <div className="absolute bottom-3 right-3 text-xs text-slate-500">
+        <div className="absolute bottom-3 right-3 text-xs text-purple-400">
           {prompt.length} characters • ⌘+Enter to generate
         </div>
       </div>
@@ -125,7 +125,7 @@ Example: Create a todo list app with dark mode and local storage"
           <button
             key={ex}
             onClick={() => setPrompt(ex)}
-            className="px-3 py-1.5 text-xs rounded-lg bg-slate-800/30 border border-slate-700/50 text-slate-400 hover:text-slate-300 hover:border-blue-500/50 transition-all"
+            className="px-3 py-1.5 text-xs rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:text-purple-200 hover:border-pink-500/50 transition-all"
           >
             {ex}
           </button>
@@ -135,7 +135,7 @@ Example: Create a todo list app with dark mode and local storage"
       <button 
         onClick={submit} 
         disabled={loading || !prompt.trim()} 
-        className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+        className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-purple-500/50 hover:shadow-pink-500/50"
       >
         {loading ? (
           <span className="flex items-center justify-center gap-2">
