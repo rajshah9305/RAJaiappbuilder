@@ -23,7 +23,7 @@ export default function CodeViewer({ code, test }: CodeViewerProps) {
     if (code && code !== liveCode) {
       setLiveCode(code);
     }
-  }, [code]);
+  }, [code, liveCode]);
   
   const cleanCode = (str: string) => {
     if (!str) return '';

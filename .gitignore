@@ -11,6 +11,7 @@ out/
 
 # Build
 *.tsbuildinfo
+tsconfig.tsbuildinfo
 
 # Vercel
 .vercel
