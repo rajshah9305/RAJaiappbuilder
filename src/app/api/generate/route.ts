@@ -38,8 +38,9 @@ Requirements:
           body: JSON.stringify({
             model: 'gpt-oss-120b',
             messages: [{ role: 'user', content: codePrompt }],
-            temperature: 0.7,
-            max_completion_tokens: 3000,
+            temperature: 1,
+            top_p: 1,
+            max_completion_tokens: 65536,
             stream: true
           })
         });
@@ -96,8 +97,9 @@ Requirements:
           body: JSON.stringify({
             model: 'gpt-oss-120b',
             messages: [{ role: 'user', content: testPrompt }],
-            temperature: 0.7,
-            max_completion_tokens: 2000,
+            temperature: 1,
+            top_p: 1,
+            max_completion_tokens: 65536,
             stream: true
           })
         });
