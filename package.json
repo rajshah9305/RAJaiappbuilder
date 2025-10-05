@@ -1,7 +1,22 @@
 {
-  "name": "ai-app-factory",
-  "version": "0.1.0",
-  "private": true,
+  "name": "nlp-to-app-platform",
+  "version": "1.0.0",
+  "description": "Enterprise-grade platform that converts natural language to fully functional web applications using AI",
+  "author": "Raj Shah <https://github.com/rajshah9305>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rajshah9305/NLPtoapp.git"
+  },
+  "keywords": [
+    "ai",
+    "nlp",
+    "code-generation",
+    "nextjs",
+    "cerebras",
+    "typescript"
+  ],
+  "private": false,
   "scripts": {
     "build": "prisma generate && next build",
     "dev": "next dev",

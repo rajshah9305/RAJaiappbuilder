@@ -75,8 +75,8 @@ An enterprise-grade platform that converts natural language descriptions into fu
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/nlp-to-app-platform.git
-   cd nlp-to-app-platform
+   git clone https://github.com/rajshah9305/NLPtoapp.git
+   cd NLPtoapp
    ```
 
 2. **Run the setup script**
@@ -261,11 +261,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Documentation**: [docs.nlp-to-app.com](https://docs.nlp-to-app.com)
-- **Issues**: [GitHub Issues](https://github.com/your-username/nlp-to-app-platform/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/nlp-to-app-platform/discussions)
-- **Email**: support@nlp-to-app.com
+- **Issues**: [GitHub Issues](https://github.com/rajshah9305/NLPtoapp/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/rajshah9305/NLPtoapp/discussions)
+- **Developer**: [Raj Shah](https://github.com/rajshah9305)
 
 ---
 
-**Built with ❤️ by the NLP-to-App Team**
+**Developed and Built with ❤️ by [Raj Shah](https://github.com/rajshah9305)**
