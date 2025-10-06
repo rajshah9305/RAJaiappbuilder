@@ -1,5 +1,5 @@
 /**
- * RAJ AI APP BUILDER - Code Viewer Component
+ * RAJ AI APP BUILDER - Optimized Code Viewer Component
  * Built and Developed by RAJ SHAH
  * https://github.com/rajshah9305
  */
@@ -41,8 +41,8 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
     setIsPreviewLoading(true);
     const timer = setTimeout(() => {
       setIframeKey((prev) => prev + 1);
-      setTimeout(() => setIsPreviewLoading(false), 500);
-    }, 300);
+      setTimeout(() => setIsPreviewLoading(false), 300);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, [liveCode]);
@@ -108,23 +108,24 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { 
       margin: 0; 
-      padding: 20px; 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      padding: 16px; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
       background: white;
       min-height: 100vh;
     }
     #root { 
-      min-height: calc(100vh - 40px);
+      min-height: calc(100vh - 32px);
       width: 100%;
     }
     .error-container {
-      padding: 20px;
-      background: #fee;
-      border: 2px solid #fcc;
+      padding: 16px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
       border-radius: 8px;
-      color: #c00;
+      color: #dc2626;
       font-family: monospace;
       white-space: pre-wrap;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -145,7 +146,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
         if (ComponentToRender) {
           root.render(<ComponentToRender />);
         } else {
-          rootElement.innerHTML = '<div class="error-container">Error: No component found. Make sure your component is named "App" or another valid name.</div>';
+          rootElement.innerHTML = '<div class="error-container"><strong>Preview Error:</strong><br/><br/>No component found. Make sure your component is named "App" or another valid name.</div>';
         }
       } catch (error) {
         const rootElement = document.getElementById('root');
@@ -252,31 +253,29 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
       {/* Content Area */}
       <div className="flex-1 bg-white overflow-hidden">
         {activeTab === 'code' && (
-          <div className="h-full relative">
+          <div className="h-full">
             {code ? (
-              <>
-                <Editor
-                  height="100%"
-                  defaultLanguage="javascript"
-                  value={cleanCode(code)}
-                  theme="vs-light"
-                  loading={<LoadingState icon="💻" message="Loading code editor..." />}
-                  options={{
-                    readOnly: true,
-                    minimap: { enabled: false },
-                    fontSize: 13,
-                    lineNumbers: 'on',
-                    scrollBeyondLastLine: false,
-                    wordWrap: 'on',
-                    fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
-                    fontLigatures: true,
-                    padding: { top: 12, bottom: 12 },
-                    renderLineHighlight: 'all',
-                    smoothScrolling: true,
-                    automaticLayout: true,
-                  }}
-                />
-              </>
+              <Editor
+                height="100%"
+                defaultLanguage="javascript"
+                value={cleanCode(code)}
+                theme="vs-light"
+                loading={<LoadingState icon="💻" message="Loading code editor..." />}
+                options={{
+                  readOnly: true,
+                  minimap: { enabled: false },
+                  fontSize: 13,
+                  lineNumbers: 'on',
+                  scrollBeyondLastLine: false,
+                  wordWrap: 'on',
+                  fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
+                  fontLigatures: true,
+                  padding: { top: 12, bottom: 12 },
+                  renderLineHighlight: 'all',
+                  smoothScrolling: true,
+                  automaticLayout: true,
+                }}
+              />
             ) : (
               <EmptyState
                 icon="💻"
