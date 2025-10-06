@@ -1,5 +1,5 @@
 /**
- * RAJ AI APP BUILDER - Main Application Page
+ * RAJ AI APP BUILDER - Optimized Main Application Page
  * Built and Developed by RAJ SHAH
  * https://github.com/rajshah9305
  */
@@ -255,3 +255,4 @@ export default function Home() {
       </footer>
     </div>
   );
+}
