@@ -166,42 +166,39 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
 
   return (
     <div className={`flex flex-col h-full ${isFullscreen ? 'fixed inset-0 z-50 bg-white' : ''}`}>
-      {/* Header with Tabs and Actions */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white px-6 sm:px-8 py-5 border-b border-gray-800/50 backdrop-blur-sm">
-        <div className="flex items-center gap-2 sm:gap-3">
+      {/* Compact Header with Tabs and Actions */}
+      <div className="flex items-center justify-between bg-gray-900 text-white px-4 py-3 border-b border-gray-700">
+        <div className="flex items-center gap-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 sm:px-6 py-3 rounded-2xl font-black text-sm sm:text-base transition-all duration-500 flex items-center gap-2 relative ripple-effect ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1.5 ${
                 activeTab === tab.id
-                  ? 'bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white shadow-[0_8px_30px_rgba(249,115,22,0.6)] scale-110 glow-orange-intense'
-                  : 'bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white hover:scale-105'
+                  ? 'bg-orange-500 text-white shadow-md'
+                  : 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white'
               }`}
             >
-              <span className="text-lg">{tab.icon}</span>
+              <span className="text-sm">{tab.icon}</span>
               <span className="hidden sm:inline">{tab.label}</span>
-              {activeTab === tab.id && (
-                <div className="absolute inset-0 rounded-2xl bg-white/20 animate-pulse" />
-              )}
             </button>
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {code && (
             <>
               <button
                 onClick={handleCopy}
-                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 group relative ripple-effect hover:scale-110"
+                className="p-2 hover:bg-gray-700 rounded-lg transition-colors group"
                 title="Copy code"
               >
                 {copied ? (
-                  <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 ) : (
-                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                 )}
@@ -209,40 +206,40 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
 
               <button
                 onClick={handleDownload}
-                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 group ripple-effect hover:scale-110"
+                className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
                 title="Download code"
               >
-                <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
               </button>
 
               <button
                 onClick={handleShare}
-                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 relative group ripple-effect hover:scale-110"
+                className="p-2 hover:bg-gray-700 rounded-lg transition-colors relative"
                 title="Share"
               >
-                <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                 </svg>
                 {shareLink && (
-                  <span className="absolute -top-12 right-0 bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold px-3 py-2 rounded-lg whitespace-nowrap shadow-lg animate-scale-in">
-                    ✓ Link copied!
+                  <span className="absolute -top-10 right-0 bg-green-500 text-white text-xs font-medium px-2 py-1 rounded whitespace-nowrap shadow-lg">
+                    ✓ Copied!
                   </span>
                 )}
               </button>
 
               <button
                 onClick={() => setIsFullscreen(!isFullscreen)}
-                className="p-3 hover:bg-white/20 rounded-xl transition-all duration-300 group ripple-effect hover:scale-110"
+                className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
                 title={isFullscreen ? 'Minimize' : 'Fullscreen'}
               >
                 {isFullscreen ? (
-                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
                   </svg>
                 ) : (
-                  <svg className="w-6 h-6 group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
                   </svg>
                 )}
@@ -253,7 +250,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 bg-gradient-to-br from-gray-50 to-white overflow-hidden">
+      <div className="flex-1 bg-white overflow-hidden">
         {activeTab === 'code' && (
           <div className="h-full relative">
             {code ? (
@@ -267,16 +264,16 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
                   options={{
                     readOnly: true,
                     minimap: { enabled: false },
-                    fontSize: 14,
+                    fontSize: 13,
                     lineNumbers: 'on',
                     scrollBeyondLastLine: false,
                     wordWrap: 'on',
                     fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
                     fontLigatures: true,
-                    padding: { top: 16, bottom: 16 },
+                    padding: { top: 12, bottom: 12 },
                     renderLineHighlight: 'all',
                     smoothScrolling: true,
-                    cursorBlinking: 'smooth',
+                    automaticLayout: true,
                   }}
                 />
               </>
@@ -291,7 +288,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
         )}
 
         {activeTab === 'preview' && (
-          <div className="h-full bg-white scrollbar-premium overflow-hidden relative">
+          <div className="h-full bg-white relative">
             {liveCode ? (
               <>
                 {isPreviewLoading && (
@@ -306,7 +303,6 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
                   className="w-full h-full border-0"
                   title="Component Preview"
                   sandbox="allow-scripts allow-same-origin"
-                  style={{ border: 'none' }}
                   onLoad={() => setIsPreviewLoading(false)}
                 />
               </>
@@ -321,7 +317,7 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
         )}
 
         {activeTab === 'tests' && (
-          <div className="h-full relative">
+          <div className="h-full">
             {testCode ? (
               <Editor
                 height="100%"
@@ -332,13 +328,14 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
                 options={{
                   readOnly: true,
                   minimap: { enabled: false },
-                  fontSize: 14,
+                  fontSize: 13,
                   lineNumbers: 'on',
                   scrollBeyondLastLine: false,
                   wordWrap: 'on',
                   fontFamily: '"JetBrains Mono", "Fira Code", Consolas, monospace',
                   fontLigatures: true,
-                  padding: { top: 16, bottom: 16 },
+                  padding: { top: 12, bottom: 12 },
+                  automaticLayout: true,
                 }}
               />
             ) : (
@@ -352,20 +349,20 @@ export default function CodeViewer({ code, testCode }: CodeViewerProps) {
         )}
       </div>
 
-      {/* Status Bar */}
+      {/* Compact Status Bar */}
       {code && (
-        <div className="bg-gray-100 px-4 py-2 border-t border-gray-200 flex items-center justify-between text-xs text-gray-600">
-          <div className="flex items-center gap-4">
+        <div className="bg-gray-50 px-3 py-2 border-t border-gray-200 flex items-center justify-between text-xs text-gray-600">
+          <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
               Ready
             </span>
             <span>{cleanCode(code).split('\n').length} lines</span>
             <span>{(cleanCode(code).length / 1024).toFixed(1)} KB</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="badge-orange">React</span>
-            <span className="badge-orange">Tailwind</span>
+            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium">React</span>
+            <span className="px-2 py-0.5 bg-cyan-100 text-cyan-700 rounded text-xs font-medium">Tailwind</span>
           </div>
         </div>
       )}
@@ -381,11 +378,11 @@ interface EmptyStateProps {
 
 function EmptyState({ icon, title, description }: EmptyStateProps) {
   return (
-    <div className="h-full flex items-center justify-center p-4 sm:p-8">
-      <div className="text-center max-w-md">
-        <div className="text-4xl sm:text-6xl mb-4 animate-float">{icon}</div>
-        <h3 className="text-lg sm:text-xl font-bold text-black mb-2">{title}</h3>
-        <p className="text-sm sm:text-base text-gray-600">{description}</p>
+    <div className="h-full flex items-center justify-center p-6">
+      <div className="text-center max-w-sm">
+        <div className="text-4xl mb-3 opacity-50">{icon}</div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">{title}</h3>
+        <p className="text-sm text-gray-600">{description}</p>
       </div>
     </div>
   );
@@ -398,15 +395,15 @@ interface LoadingStateProps {
 
 function LoadingState({ icon, message }: LoadingStateProps) {
   return (
-    <div className="h-full flex items-center justify-center p-4 sm:p-8">
-      <div className="text-center max-w-md">
-        <div className="text-4xl sm:text-6xl mb-4 animate-pulse">{icon}</div>
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+    <div className="h-full flex items-center justify-center p-6">
+      <div className="text-center max-w-sm">
+        <div className="text-4xl mb-3 animate-pulse opacity-70">{icon}</div>
+        <div className="flex items-center justify-center gap-1 mb-2">
+          <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+          <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+          <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
         </div>
-        <p className="text-sm sm:text-base text-gray-600 font-medium">{message}</p>
+        <p className="text-sm text-gray-600 font-medium">{message}</p>
       </div>
     </div>
   );
