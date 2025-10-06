@@ -125,15 +125,15 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
   return (
     <div className="space-y-6">
       {/* Welcome Message */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl p-8 sm:p-10 text-white animate-slide-up glow-orange-intense border-gradient">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-white/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-60 h-60 bg-orange-400/30 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2" />
+      <div className="relative overflow-hidden bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-2xl p-6 sm:p-7 text-white animate-slide-up glow-orange-intense border-gradient">
+        <div className="absolute top-0 right-0 w-60 h-60 bg-white/20 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-400/30 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2" />
         <div className="relative">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-3 flex items-center gap-3 text-shadow-orange">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-black mb-2 flex items-center gap-3 text-shadow-orange">
             {welcomeMessage}
-            <span className="text-4xl animate-float">🚀</span>
+            <img src="/custom-icon.jpeg" alt="icon" className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg object-cover animate-float shadow-lg" />
           </h1>
-          <p className="text-orange-50 text-lg sm:text-xl font-semibold">Transform your ideas into reality with AI-powered code generation</p>
+          <p className="text-orange-50 text-base sm:text-lg font-semibold">Transform your ideas into reality with AI-powered code generation</p>
         </div>
       </div>
 
@@ -164,13 +164,7 @@ export default function PromptInput({ onGenerate, isLoading }: PromptInputProps)
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-6">
-          <div className="flex items-center gap-3 text-sm font-medium text-gray-700 bg-blue-50/80 backdrop-blur-sm px-4 py-3 rounded-xl border border-blue-200/50">
-            <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span className="hidden sm:inline">Be specific for better results</span>
-          </div>
+        <div className="flex items-center justify-end gap-6">
           <button
             type="submit"
             disabled={!prompt.trim() || isLoading}
